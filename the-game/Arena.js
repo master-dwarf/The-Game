@@ -52,7 +52,7 @@ function Arena () {
     this.nBuffer = null;
     this.vPosition = null;
     this.vNormal = null;
-    
+
     this.init = function () {
 
 	this.vBuffer = gl.createBuffer();
@@ -62,7 +62,7 @@ function Arena () {
 	this.nBuffer = gl.createBuffer();
 	gl.bindBuffer( gl.ARRAY_BUFFER, this.nBuffer );
 	gl.bufferData( gl.ARRAY_BUFFER, new Float32Array(this.normals), gl.STATIC_DRAW );
-	
+
     };
 
     this.show = function () {
@@ -73,7 +73,7 @@ function Arena () {
 	    console.log('Failed to get the storage location of vPosition');
 	}
 	gl.vertexAttribPointer(this.vPosition, 3, gl.FLOAT, false, 0, 0);
-	gl.enableVertexAttribArray( this.vPosition );    
+	gl.enableVertexAttribArray( this.vPosition );
 
 	gl.bindBuffer( gl.ARRAY_BUFFER, this.nBuffer );
 	this.vNormal = gl.getAttribLocation( program, "vNormal" );
@@ -86,38 +86,38 @@ function Arena () {
 	var ambientProduct = mult(la0, ma);
 	var diffuseProduct = mult(ld0, md);
 	var specularProduct = mult(ls0, ms);
-	
+
 	gl.uniform4fv(gl.getUniformLocation(program, "ambientProduct"),
 		      flatten(ambientProduct));
 	gl.uniform4fv(gl.getUniformLocation(program, "diffuseProduct"),
 		      flatten(diffuseProduct) );
-	gl.uniform4fv(gl.getUniformLocation(program, "specularProduct"), 
+	gl.uniform4fv(gl.getUniformLocation(program, "specularProduct"),
 		      flatten(specularProduct) );
-	gl.uniform4fv(gl.getUniformLocation(program, "lightPosition"), 
+	gl.uniform4fv(gl.getUniformLocation(program, "lightPosition"),
 		      flatten(lp0) );
 	gl.uniform1f(gl.getUniformLocation(program, "shininess"),
 		     me);
-	
+
 	gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
 	gl.drawArrays(gl.TRIANGLE_FAN, 4, 4);
 	gl.drawArrays(gl.TRIANGLE_FAN, 8, 4);
 	gl.drawArrays(gl.TRIANGLE_FAN, 12, 4);
 
-	ambientProduct = mult(la0, blue);
+	ambientProduct = mult(la0, red);
 	//	ambientProduct = mult(vec4(1.0,1.0,1.0,1.0), blue);
-	diffuseProduct = mult(ld0, blue);
-	specularProduct = mult(ls0, blue);
-	
+	diffuseProduct = mult(ld0, red);
+	specularProduct = mult(ls0, red);
+
 	gl.uniform4fv(gl.getUniformLocation(program, "ambientProduct"),
 		      flatten(ambientProduct));
 	gl.uniform4fv(gl.getUniformLocation(program, "diffuseProduct"),
 		      flatten(diffuseProduct) );
-	gl.uniform4fv(gl.getUniformLocation(program, "specularProduct"), 
-		      flatten(specularProduct) );	
-	
+	gl.uniform4fv(gl.getUniformLocation(program, "specularProduct"),
+		      flatten(specularProduct) );
+
 	gl.drawArrays(gl.TRIANGLE_FAN, 16, 4);
 	// IMPORTANT: Disable current vertex attribute arrays so those in
-	// a different object can be activated.  
+	// a different object can be activated.
 	gl.disableVertexAttribArray(this.vPosition);
 	gl.disableVertexAttribArray(this.vNormal);
     };
