@@ -93,9 +93,8 @@ function render()
 {
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-
     // Hero's eye viewport
-    gl.viewport( vp1_left, vp1_bottom, (HERO_VP * width), height );
+    gl.viewport( vp1_left, vp1_bottom, width, height );
 
     lp0[0] = hero.x + hero.xdir; // Light in front of hero, in line with hero's direction
     lp0[1] = EYEHEIGHT;
@@ -113,8 +112,7 @@ function render()
 
     // Overhead viewport
     var horiz_offset = (width * (1.0 - HERO_VP) / 20.0);
-    gl.viewport( vp1_left + (HERO_VP * width) + horiz_offset ,
-		 vp1_bottom, 18 * horiz_offset, height );
+    gl.viewport( vp1_left+(.75*width),vp1_bottom+(height*.75),width-(.75*width),height-(height*.75));
     modelViewMatrix = lookAt(  vec3(500.0,100.0,-500.0),
 			       vec3(500.0,0.0,-500.0),
 			       vec3(0.0,0.0,-1.0) );
