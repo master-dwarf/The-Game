@@ -23,7 +23,7 @@ function GameObject(program, x, y, z, degrees, bounding_cir_rad)  {
 	this.z = this.z + speed * this.zdir;
     };
 
-    
+
 };
 
 

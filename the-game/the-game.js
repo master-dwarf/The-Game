@@ -13,10 +13,10 @@ const near = 1.0;
 const far = 10000.0;
 var aspect, eyex, eyez;
 
-const width = 1000;       // canvas size
-const height = 625;
-const vp1_left = 0;      // Left viewport -- the hero's view
-const vp1_bottom = 0;
+var width       // canvas size
+var height
+var vp1_left = 0;      // Left viewport -- the hero's view
+var vp1_bottom = 0;
 
 // Lighting stuff
 var la0  = [ 0.2,0.2,0.2, 1.0 ]; // light 0 ambient intensity
@@ -46,6 +46,7 @@ var g_matrixStack = []; // Stack for storing a matrix
 
 window.onload = function init(){
     canvas = document.getElementById( "gl-canvas" );
+    fit();
 
     //    gl = WebGLUtils.setupWebGL( canvas );
     gl = WebGLDebugUtils.makeDebugContext( canvas.getContext("webgl") ); // For debugging
@@ -91,6 +92,7 @@ window.onload = function init(){
 
 function render()
 {
+    //fit();
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     // Hero's eye viewport
@@ -127,7 +129,18 @@ function render()
     requestAnimFrame( render );
 };
 
+function fit(){
+  width = window.innerWidth - 10;
+  height = window.innerHeight - 10;
+  var windowHeight = window.outerHeight;
+  canvas.width = width;
+  canvas.height = height;
+
+}
+
 // Key listener
+
+
 
 window.onkeydown = function(event) {
     var key = String.fromCharCode(event.keyCode);
@@ -137,11 +150,11 @@ window.onkeydown = function(event) {
     switch (key) {
     case 'S':
 	// Move backward
-	hero.move(-1.0);
+	hero.move(-1.0,0);
 	break;
     case 'W':
 	// Move forward
-	hero.move(1.0);
+	hero.move(1.0,0);
 	break;
     case 'A':
 	// Turn left
