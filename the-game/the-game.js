@@ -19,18 +19,18 @@ var vp1_left = 0;      // Left viewport -- the hero's view
 var vp1_bottom = 0;
 
 // Lighting stuff
-var la0  = [ 0.2,0.2,0.2, 1.0 ]; // light 0 ambient intensity
-var ld0  = [ 1.0,1.0,1.0, 1.0 ]; // light 0 diffuse intensity
-var ls0  = [ 1.0,1.0,1.0, 1.0 ]; // light 0 specular
-var lp0  = [ 0.0,1.0,1.0, 1.0 ]; // light 0 position -- will adjust to hero's viewpoint
-var ma   = [ 0.02 , 0.2  , 0.02 , 1.0 ]; // material ambient
-var md   = [ 0.08, 0.6 , 0.08, 1.0 ]; // material diffuse
-var ms   = [ 0.6  , 0.7, 0.6  , 1.0 ]; // material specular
-var me      = 75;             // shininess exponent
-const red  = [ 1.0,0.0,0.0, 1.0 ]; // pure red
-const blue = [ 0.0,0.0,1.0, 1.0 ]; // pure blue
-const green = [ 0.0,1.0,0.0, 1.0 ]; // pure blue
-const yellow = [ 1.0,1.0,0.0, 1.0 ]; // pure yellow
+var la0 = [ 0.2, 0.2, 0.2, 1.0 ]; // light 0 ambient intensity
+var ld0 = [ 1.0, 1.0, 1.0, 1.0 ]; // light 0 diffuse intensity
+var ls0 = [ 1.0, 1.0, 1.0, 1.0 ]; // light 0 specular
+var lp0 = [ 0.0, 1.0, 1.0, 1.0 ]; // light 0 position -- will adjust to hero's viewpoint
+var ma = [ 0.02, 0.2, 0.02, 1.0 ]; // material ambient
+var md = [ 0.08, 0.6 , 0.08, 1.0 ]; // material diffuse
+var ms = [ 0.6, 0.7, 0.6, 1.0 ]; // material specular
+var me = 75;             // shininess exponent
+const red  = [ 1.0, 0.0, 0.0, 1.0 ]; // pure red
+const blue = [ 0.0, 0.0, 1.0, 1.0 ]; // pure blue
+const green = [ 0.0, 1.0, 0.0, 1.0 ]; // pure green
+const yellow = [ 1.0, 1.0, 0.0, 1.0 ]; // pure yellow
 
 var modelViewMatrix, projectionMatrix;
 var modelViewMatrixLoc, projectionMatrixLoc;
@@ -50,11 +50,13 @@ window.onload = function init(){
 
     //    gl = WebGLUtils.setupWebGL( canvas );
     gl = WebGLDebugUtils.makeDebugContext( canvas.getContext("webgl") ); // For debugging
-    if ( !gl ) { alert( "WebGL isn't available" ); }
+    if ( !gl ) { 
+        alert( "WebGL isn't available" ); 
+    }
 
     //  Configure WebGL
 
-    gl.clearColor( 0.2, 0.2, 0.2, 1.0 );
+    gl.clearColor( 0.2, 0.8, 1.0, 1.0 );
 
     //  Load shaders and initialize attribute buffers
 
@@ -72,7 +74,7 @@ window.onload = function init(){
 		 0); // Assume no texturing is the default used in
                      // shader.  If your game object uses it, be sure
                      // to switch it back to 0 for consistency with
-                     // those objects that use the defalt.
+                     // those objects that use the default.
 
 
     arena = new Arena(program);
@@ -101,9 +103,9 @@ function render()
     lp0[0] = hero.x + hero.xdir; // Light in front of hero, in line with hero's direction
     lp0[1] = EYEHEIGHT;
     lp0[2] = hero.z + hero.zdir;
-    modelViewMatrix = lookAt( vec3(hero.x, EYEHEIGHT, hero.z),
-			      vec3(hero.x + hero.xdir, EYEHEIGHT, hero.z + hero.zdir),
-			      vec3(upx, upy, upz) );
+    modelViewMatrix = lookAt( vec3(hero.x, EYEHEIGHT, hero.z), 
+                      vec3(hero.x + hero.xdir, EYEHEIGHT, hero.z + hero.zdir), 
+                      vec3(upx, upy, upz) );
     projectionMatrix = perspective( fov, HERO_VP * aspect, near, far );
     gl.uniformMatrix4fv( modelViewMatrixLoc, false, flatten(modelViewMatrix) );
     gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten(projectionMatrix) );
@@ -115,9 +117,7 @@ function render()
     // Overhead viewport
     var horiz_offset = (width * (1.0 - HERO_VP) / 20.0);
     gl.viewport( vp1_left+(.75*width),vp1_bottom+(height*.75),width-(.75*width),height-(height*.75));
-    modelViewMatrix = lookAt(  vec3(500.0,100.0,-500.0),
-			       vec3(500.0,0.0,-500.0),
-			       vec3(0.0,0.0,-1.0) );
+    modelViewMatrix = lookAt(  vec3(500.0,100.0,-500.0), vec3(500.0,0.0,-500.0), vec3(0.0,0.0,-1.0) );
     projectionMatrix = ortho( -500,500, -500,500, 0,200 );
     gl.uniformMatrix4fv( modelViewMatrixLoc, false, flatten(modelViewMatrix) );
     gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten(projectionMatrix) );
@@ -130,17 +130,15 @@ function render()
 };
 
 function fit(){
-  width = window.innerWidth - 10;
-  height = window.innerHeight - 10;
-  var windowHeight = window.outerHeight;
-  canvas.width = width;
-  canvas.height = height;
+    width = window.innerWidth - 10;
+    height = window.innerHeight - 10;
+    var windowHeight = window.outerHeight;
+    canvas.width = width;
+    canvas.height = height;
 
 }
 
 // Key listener
-
-
 
 window.onkeydown = function(event) {
     var key = String.fromCharCode(event.keyCode);
@@ -148,21 +146,21 @@ window.onkeydown = function(event) {
     // returned because the shift-key is regarded as a separate key in
     // itself.  Hence upper- and lower-case can't be distinguished.
     switch (key) {
-    case 'S':
-	// Move backward
-	hero.move(-1.0,0);
-	break;
-    case 'W':
-	// Move forward
-	hero.move(1.0,0);
-	break;
-    case 'A':
-	// Turn left
-	hero.turn(-1);
-	break;
-    case 'D':
-	// Turn right
-	hero.turn(1);
-	break;
+        case 'S':
+        // Move backward
+        hero.move(-1.0,0);
+        break;
+        case 'W':
+        // Move forward
+        hero.move(1.0,0);
+        break;
+        case 'A':
+        // Turn left
+        hero.turn(-1);
+        break;
+        case 'D':
+        // Turn right
+        hero.turn(1);
+        break;
     }
 };
