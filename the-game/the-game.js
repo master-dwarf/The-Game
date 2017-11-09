@@ -94,7 +94,6 @@ window.onload = function init(){
 
 function render()
 {
-    //fit();
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     // Hero's eye viewport
@@ -130,8 +129,8 @@ function render()
 };
 
 function fit(){
-    width = window.innerWidth - 10;
-    height = window.innerHeight - 10;
+    width = window.innerWidth;
+    height = window.innerHeight;
     canvas.width = width;
     canvas.height = height;
 
