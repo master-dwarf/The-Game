@@ -2,7 +2,7 @@
 Game for Computer Graphics 371
 
 Commit style should follow these conventions:
-    <type>[optional scope]: <description>
+    \<type\>[optional scope]: \<description\>
 
     Where type is:
         fix - bug fix
