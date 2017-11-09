@@ -38,7 +38,7 @@ Hero.prototype.show = function() {
 
     g_matrixStack.push(modelViewMatrix);
     modelViewMatrix = mult(modelViewMatrix, translate(this.x, 10.0, this.z));
-    modelViewMatrix = mult(modelViewMatrix, scalem(10.0,10.0,10.0));
+    modelViewMatrix = mult(modelViewMatrix, scalem(10.0, 10.0, 10.0));
 
     gl.bindBuffer( gl.ARRAY_BUFFER, this.vBuffer );
     this.vPosition = gl.getAttribLocation( program, "vPosition" );
@@ -62,15 +62,14 @@ Hero.prototype.show = function() {
 
     gl.bindBuffer( gl.ELEMENT_ARRAY_BUFFER, this.iBuffer );
 
-    //    var ambientProduct = mult(vec4(1.0,1.0,1.0,1.0), red);
     var ambientProduct = mult(la0, yellow);
     var diffuseProduct = mult(ld0, yellow);
     var specularProduct = mult(ls0, yellow);
     
     gl.uniform4fv(gl.getUniformLocation(program, "ambientProduct"), flatten(ambientProduct));
-    gl.uniform4fv(gl.getUniformLocation(program, "diffuseProduct"), flatten(diffuseProduct) );
-    gl.uniform4fv(gl.getUniformLocation(program, "specularProduct"), flatten(specularProduct) );	
-    gl.uniform4fv(gl.getUniformLocation(program, "lightPosition"),  flatten(lp0) );
+    gl.uniform4fv(gl.getUniformLocation(program, "diffuseProduct"), flatten(diffuseProduct));
+    gl.uniform4fv(gl.getUniformLocation(program, "specularProduct"), flatten(specularProduct));	
+    gl.uniform4fv(gl.getUniformLocation(program, "lightPosition"), flatten(lp0));
     gl.uniform1f(gl.getUniformLocation(program, "shininess"), me);
 
     gl.uniformMatrix4fv( modelViewMatrixLoc, false, flatten(modelViewMatrix) );

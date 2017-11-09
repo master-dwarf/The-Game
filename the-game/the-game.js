@@ -1,10 +1,10 @@
 // the-game.js
 var gl;
 var canvas;
-const WALLHEIGHT     = 70.0; // Some playing field parameters
-const ARENASIZE      = 1000.0;
-const EYEHEIGHT      = 15.0;
-const HERO_VP        = 0.625;
+const WALLHEIGHT = 70.0; // Some playing field parameters
+const ARENASIZE = 1000.0;
+const EYEHEIGHT = 15.0;
+const HERO_VP = 0.625;
 
 const  upx=0.0, upy=1.0, upz=0.0;    // Some LookAt params
 
@@ -48,7 +48,7 @@ window.onload = function init(){
     canvas = document.getElementById( "gl-canvas" );
     fit();
 
-    //    gl = WebGLUtils.setupWebGL( canvas );
+       // gl = WebGLUtils.setupWebGL( canvas );
     gl = WebGLDebugUtils.makeDebugContext( canvas.getContext("webgl") ); // For debugging
     if ( !gl ) {
         alert( "WebGL isn't available" );
@@ -63,15 +63,14 @@ window.onload = function init(){
     program = initShaders( gl, "vertex-shader", "fragment-shader" );
     gl.useProgram( program );
 
-    eyex  = ARENASIZE/2.0;	// Where the hero starts
-    eyez  =  -ARENASIZE/2.0;
-    aspect=width/height;
+    eyex = ARENASIZE / 2.0;	// Where the hero starts
+    eyez = -ARENASIZE / 2.0;
+    aspect = width / height;
 
     modelViewMatrixLoc = gl.getUniformLocation( program, "modelViewMatrix" );
     projectionMatrixLoc = gl.getUniformLocation( program, "projectionMatrix" );
 
-    gl.uniform1i(gl.getUniformLocation(program, "texture_flag"),
-		 0); // Assume no texturing is the default used in
+    gl.uniform1i(gl.getUniformLocation(program, "texture_flag"), 0); // Assume no texturing is the default used in
                      // shader.  If your game object uses it, be sure
                      // to switch it back to 0 for consistency with
                      // those objects that use the default.
@@ -83,10 +82,10 @@ window.onload = function init(){
     hero = new Hero(program, eyex, 0.0, eyez, 45, 10.0);
     hero.init();
 
-    thingSeeking = new ThingSeeking(program, ARENASIZE/4.0, 0.0, -ARENASIZE/4.0, 0, 10.0);
+    thingSeeking = new ThingSeeking(program, ARENASIZE / 4.0, 0.0, -ARENASIZE / 4.0, 0, 10.0);
     thingSeeking.init();
 
-    villain = new Villain(program, (3*ARENASIZE)/4.0, 0.0, -ARENASIZE/4.0, 0, 10.0);
+    villain = new Villain(program, (3 * ARENASIZE) / 4.0, 0.0, -ARENASIZE / 4.0, 0, 10.0);
     villain.init();
 
     render();
@@ -115,9 +114,9 @@ function render()
 
     // Overhead viewport
     var horiz_offset = (width * (1.0 - HERO_VP) / 20.0);
-    gl.viewport( vp1_left+(.75*width),vp1_bottom+(height*.75),width-(.75*width),height-(height*.75));
-    modelViewMatrix = lookAt(  vec3(500.0,100.0,-500.0), vec3(500.0,0.0,-500.0), vec3(0.0,0.0,-1.0) );
-    projectionMatrix = ortho( -500,500, -500,500, 0,200 );
+    gl.viewport(vp1_left + (.75 * width), vp1_bottom + (height * .75), width - (.75 * width), height - (height * .75));
+    modelViewMatrix = lookAt(vec3(500.0, 100.0, -500.0), vec3(500.0, 0.0, -500.0), vec3(0.0, 0.0, -1.0));
+    projectionMatrix = ortho(-500, 500, -500, 500, 0, 200);
     gl.uniformMatrix4fv( modelViewMatrixLoc, false, flatten(modelViewMatrix) );
     gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten(projectionMatrix) );
     arena.show();
@@ -146,11 +145,11 @@ window.onkeydown = function(event) {
     switch (key) {
         case 'S':
         // Move backward
-        hero.move(-1.0,0);
+        hero.move(-1.0, 0);
         break;
         case 'W':
         // Move forward
-        hero.move(1.0,0);
+        hero.move(1.0, 0);
         break;
         case 'A':
         // Turn left

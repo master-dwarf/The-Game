@@ -92,9 +92,9 @@ function Arena () {
 		var specularProduct = mult(ls0, ms);
 
 		gl.uniform4fv(gl.getUniformLocation(program, "ambientProduct"), flatten(ambientProduct));
-		gl.uniform4fv(gl.getUniformLocation(program, "diffuseProduct"), flatten(diffuseProduct) );
-		gl.uniform4fv(gl.getUniformLocation(program, "specularProduct"), flatten(specularProduct) );
-		gl.uniform4fv(gl.getUniformLocation(program, "lightPosition"), flatten(lp0) );
+		gl.uniform4fv(gl.getUniformLocation(program, "diffuseProduct"), flatten(diffuseProduct));
+		gl.uniform4fv(gl.getUniformLocation(program, "specularProduct"), flatten(specularProduct));
+		gl.uniform4fv(gl.getUniformLocation(program, "lightPosition"), flatten(lp0));
 		gl.uniform1f(gl.getUniformLocation(program, "shininess"), me);
 
 		gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
@@ -103,16 +103,12 @@ function Arena () {
 		gl.drawArrays(gl.TRIANGLE_FAN, 12, 4);
 
 		ambientProduct = mult(la0, green);
-		// ambientProduct = mult(vec4(1.0,1.0,1.0,1.0), blue);
 		diffuseProduct = mult(ld0, green);
 		specularProduct = mult(ls0, green);
 
-		gl.uniform4fv(gl.getUniformLocation(program, "ambientProduct"),
-				flatten(ambientProduct));
-		gl.uniform4fv(gl.getUniformLocation(program, "diffuseProduct"),
-				flatten(diffuseProduct) );
-		gl.uniform4fv(gl.getUniformLocation(program, "specularProduct"),
-				flatten(specularProduct) );
+		gl.uniform4fv(gl.getUniformLocation(program, "ambientProduct"), flatten(ambientProduct));
+		gl.uniform4fv(gl.getUniformLocation(program, "diffuseProduct"), flatten(diffuseProduct));
+		gl.uniform4fv(gl.getUniformLocation(program, "specularProduct"), flatten(specularProduct));
 
 		gl.drawArrays(gl.TRIANGLE_FAN, 16, 4);
 		// IMPORTANT: Disable current vertex attribute arrays so those in
