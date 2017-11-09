@@ -50,8 +50,8 @@ window.onload = function init(){
 
     //    gl = WebGLUtils.setupWebGL( canvas );
     gl = WebGLDebugUtils.makeDebugContext( canvas.getContext("webgl") ); // For debugging
-    if ( !gl ) { 
-        alert( "WebGL isn't available" ); 
+    if ( !gl ) {
+        alert( "WebGL isn't available" );
     }
 
     //  Configure WebGL
@@ -103,8 +103,8 @@ function render()
     lp0[0] = hero.x + hero.xdir; // Light in front of hero, in line with hero's direction
     lp0[1] = EYEHEIGHT;
     lp0[2] = hero.z + hero.zdir;
-    modelViewMatrix = lookAt( vec3(hero.x, EYEHEIGHT, hero.z), 
-                      vec3(hero.x + hero.xdir, EYEHEIGHT, hero.z + hero.zdir), 
+    modelViewMatrix = lookAt( vec3(hero.x, EYEHEIGHT, hero.z),
+                      vec3(hero.x + hero.xdir, EYEHEIGHT, hero.z + hero.zdir),
                       vec3(upx, upy, upz) );
     projectionMatrix = perspective( fov, HERO_VP * aspect, near, far );
     gl.uniformMatrix4fv( modelViewMatrixLoc, false, flatten(modelViewMatrix) );
@@ -132,7 +132,6 @@ function render()
 function fit(){
     width = window.innerWidth - 10;
     height = window.innerHeight - 10;
-    var windowHeight = window.outerHeight;
     canvas.width = width;
     canvas.height = height;
 
