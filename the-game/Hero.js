@@ -42,17 +42,21 @@ Hero.prototype.show = function() {
 
     gl.bindBuffer( gl.ARRAY_BUFFER, this.vBuffer );
     this.vPosition = gl.getAttribLocation( program, "vPosition" );
+
     if (this.vPosition < 0) {
-	console.log('Failed to get the storage location of vPosition');
+	    console.log('Failed to get the storage location of vPosition');
     }
+
     gl.vertexAttribPointer(this.vPosition, 3, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray( this.vPosition );    
 
     gl.bindBuffer( gl.ARRAY_BUFFER, this.nBuffer );
     this.vNormal = gl.getAttribLocation( program, "vNormal" );
+
     if (this.vPosition < 0) {
-	console.log('Failed to get the storage location of vPosition');
+	    console.log('Failed to get the storage location of vPosition');
     }
+
     gl.vertexAttribPointer( this.vNormal, 3, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( this.vNormal );
 
@@ -63,16 +67,11 @@ Hero.prototype.show = function() {
     var diffuseProduct = mult(ld0, yellow);
     var specularProduct = mult(ls0, yellow);
     
-    gl.uniform4fv(gl.getUniformLocation(program, "ambientProduct"),
-		  flatten(ambientProduct));
-    gl.uniform4fv(gl.getUniformLocation(program, "diffuseProduct"),
-		  flatten(diffuseProduct) );
-    gl.uniform4fv(gl.getUniformLocation(program, "specularProduct"), 
-		  flatten(specularProduct) );	
-    gl.uniform4fv(gl.getUniformLocation(program, "lightPosition"), 
-		  flatten(lp0) );
-    gl.uniform1f(gl.getUniformLocation(program, "shininess"),
-		 me);
+    gl.uniform4fv(gl.getUniformLocation(program, "ambientProduct"), flatten(ambientProduct));
+    gl.uniform4fv(gl.getUniformLocation(program, "diffuseProduct"), flatten(diffuseProduct) );
+    gl.uniform4fv(gl.getUniformLocation(program, "specularProduct"), flatten(specularProduct) );	
+    gl.uniform4fv(gl.getUniformLocation(program, "lightPosition"),  flatten(lp0) );
+    gl.uniform1f(gl.getUniformLocation(program, "shininess"), me);
 
     gl.uniformMatrix4fv( modelViewMatrixLoc, false, flatten(modelViewMatrix) );
     gl.enable(gl.CULL_FACE);	// Why?
