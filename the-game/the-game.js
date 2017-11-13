@@ -150,19 +150,19 @@ window.onkeydown = function(event) {
     switch (key) {
         case 'S':
         // Move backward
-        hero.move(-1.0, 0);
+        hero.move(-2.0, 0);
         break;
         case 'W':
         // Move forward
-        hero.move(1.0, 0);
+        hero.move(2.0, 0);
         break;
         case 'A':
         // Turn left
-        hero.turn(-1);
+        hero.turn(-1.5);
         break;
         case 'D':
         // Turn right
-        hero.turn(1);
+        hero.turn(1.5);
         break;
     }
 };
