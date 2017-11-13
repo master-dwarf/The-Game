@@ -57,6 +57,10 @@ window.onload = function init(){
     //  Configure WebGL
 
     gl.clearColor( 0.2, 0.8, 1.0, 1.0 );
+    
+    gl.enable(gl.DEPTH_TEST);
+    gl.enable(gl.POLYGON_OFFSET_FILL);
+    gl.polygonOffset(1.0, 2.0);
 
     //  Load shaders and initialize attribute buffers
 
@@ -149,20 +153,20 @@ window.onkeydown = function(event) {
     // itself.  Hence upper- and lower-case can't be distinguished.
     switch (key) {
         case 'S':
-        // Move backward
-        hero.move(-2.0, 0);
-        break;
+            // Move backward
+            hero.move(-2.0, 0);
+            break;
         case 'W':
-        // Move forward
-        hero.move(2.0, 0);
-        break;
+            // Move forward
+            hero.move(2.0, 0);
+            break;
         case 'A':
-        // Turn left
-        hero.turn(-1.5);
-        break;
+            // Turn left
+            hero.turn(-1.5);
+            break;
         case 'D':
-        // Turn right
-        hero.turn(1.5);
-        break;
+            // Turn right
+            hero.turn(1.5);
+            break;
     }
 };
