@@ -135,6 +135,11 @@ function fit(){
 
 }
 
+function victory(){
+  // possible collsion if bounding_cir_rad of hero hits wall position, touches the
+  // thingSeeking.bounding_cir_rad or villain.bounding_cir_rad.????
+}
+
 // Key listener
 
 window.onkeydown = function(event) {
