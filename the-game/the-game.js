@@ -189,19 +189,23 @@ window.onkeydown = function(event) {
             if(collision()<0){
               hero.move(2.0,0);
               window.alert("you have lost. :(");
+            } else if(collision()==1) {
+                window.alert("you have won!");
+            } else if(collision()=="wall") {
+                hero.move(2.0,0);
             }
-            else if(collision()==1){window.alert("you have won!");}
-            else if(collision()=="wall"){hero.move(2.0,0);};
             break;
         case 'W':
             // Move forward
             hero.move(2.0, 0);
-            if(collision()<0){
+            if(collision()<0) {
               hero.move(-2.0,0);
               window.alert("you have lost. :(");
+            } else if(collision()==1) {
+                window.alert("you have won!");
+            } else if(collision()=="wall") {
+                hero.turn(180);
             }
-            else if(collision()==1){window.alert("you have won!");}
-            else if(collision()=="wall"){hero.move(-2.0,0);};
             break;
         case 'A':
             // Turn left
