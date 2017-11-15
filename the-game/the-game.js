@@ -57,7 +57,7 @@ window.onload = function init(){
     //  Configure WebGL
 
     gl.clearColor( 0.2, 0.8, 1.0, 1.0 );
-    
+
     gl.enable(gl.DEPTH_TEST);
     gl.enable(gl.POLYGON_OFFSET_FILL);
     gl.polygonOffset(1.0, 2.0);
@@ -128,6 +128,8 @@ function render()
     thingSeeking.show();
     villain.show();
 
+    collision();
+
     requestAnimFrame( render );
 };
 
@@ -139,9 +141,33 @@ function fit(){
 
 }
 
-function victory(){
-  // possible collsion if bounding_cir_rad of hero hits wall position, touches the
-  // thingSeeking.bounding_cir_rad or villain.bounding_cir_rad.????
+function collision(){
+  // collision will happen between two objects if the distances
+  // between the between the two is less then the total bounding_cir_rad of both.
+  //
+  //TODO:look into the future move and calcualte the distances to see if possible or win/loss
+  // solution: perform move then check. if -1, touching villain then move back.
+  //           if 1, touching thingSeeking notify win.
+  var distanceXHeroVillain = hero.x - villain.x;
+  var distanceZHeroVillain = hero.z - villain.z;
+
+  var distanceXHeroSeek = hero.x - thingSeeking.x;
+  var distanceZHeroSeek = hero.z - thingSeeking.z;
+
+  var totalDistanceHeroVillain = Math.sqrt(distanceXHeroVillain*distanceXHeroVillain
+    + distanceZHeroVillain*distanceZHeroVillain);
+  var totalDistanceHeroSeeking = Math.sqrt(distanceXHeroSeek*distanceXHeroSeek
+    + distanceZHeroSeek*distanceZHeroSeek)
+
+  if(totalDistanceHeroVillain <= hero.bounding_cir_rad + villain.bounding_cir_rad){
+    //console.log("you are touching the villain");//tells if touching each other.
+    return -1;
+  }
+  else if(totalDistanceHeroSeeking <= hero.bounding_cir_rad + thingSeeking.bounding_cir_rad){
+    //console.log("you have reached the objective");
+    return 1;
+  }
+  return 0;
 }
 
 // Key listener
@@ -155,10 +181,20 @@ window.onkeydown = function(event) {
         case 'S':
             // Move backward
             hero.move(-2.0, 0);
+            if(collision()<0){
+              hero.move(2.0,0);
+              window.alert("you have lost. :(");
+            }
+            else if(collision()==1){window.alert("you have won!");}
             break;
         case 'W':
             // Move forward
             hero.move(2.0, 0);
+            if(collision()<0){
+              hero.move(-2.0,0);
+              window.alert("you have lost. :(");
+            }
+            else if(collision()==1){window.alert("you have won!");}
             break;
         case 'A':
             // Turn left
