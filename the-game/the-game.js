@@ -138,7 +138,6 @@ function fit(){
     height = window.innerHeight;
     canvas.width = width;
     canvas.height = height;
-
 }
 
 function collision(){
@@ -167,6 +166,12 @@ function collision(){
     //console.log("you have reached the objective");
     return 1;
   }
+  if(hero.x<0 || hero.x>ARENASIZE){
+    return "wall";
+  }
+  if(hero.z>0 || hero.z<(-ARENASIZE)){
+    return "wall";
+  }
   return 0;
 }
 
@@ -186,6 +191,7 @@ window.onkeydown = function(event) {
               window.alert("you have lost. :(");
             }
             else if(collision()==1){window.alert("you have won!");}
+            else if(collision()=="wall"){hero.move(2.0,0);};
             break;
         case 'W':
             // Move forward
@@ -195,6 +201,7 @@ window.onkeydown = function(event) {
               window.alert("you have lost. :(");
             }
             else if(collision()==1){window.alert("you have won!");}
+            else if(collision()=="wall"){hero.move(-2.0,0);};
             break;
         case 'A':
             // Turn left
