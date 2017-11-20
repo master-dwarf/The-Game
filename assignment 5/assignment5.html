@@ -6,20 +6,20 @@
 
 attribute vec4 vPosition;
 attribute vec4 vNormal;
-varying vec3 N, L, E;
+varying vec3 N, L, E, pos;
 uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
 uniform vec4 lightPosition;
 
-void main()
+void main()//mod in here
 {
-    vec3 pos = (modelViewMatrix * vPosition).xyz;
+    pos = (modelViewMatrix * vPosition).xyz;
     vec3 light = lightPosition.xyz;
     L = normalize( light - pos );
     E = normalize(pos);
     N = normalize( (modelViewMatrix*vNormal).xyz);
     gl_Position = projectionMatrix * modelViewMatrix * vPosition;
-    
+
 }
 </script>
 
@@ -31,12 +31,12 @@ uniform vec4 ambientProduct;
 uniform vec4 diffuseProduct;
 uniform vec4 specularProduct;
 uniform float shininess;
-varying vec3 N, L, E;
+varying vec3 N, L, E, pos;//added pos
 
-void main()
-{    
+void main()//mod in here
+{
     vec4 fColor;
-    
+
     vec3 H = normalize( L + E );
     vec4 ambient = ambientProduct;
 
@@ -45,12 +45,16 @@ void main()
 
     float Ks = pow( max(dot(N, H), 0.0), shininess );
     vec4  specular = Ks * specularProduct;
-    
+
     if( dot(L, N) < 0.0 ) specular = vec4(0.0, 0.0, 0.0, 1.0);
 
     fColor = ambient + diffuse +specular;
     fColor.a = 1.0;
 
+    float two = 2.0;// added
+    float blah = mod((pos.x + pos.y + pos.z), two);//added
+
+    fColor = vec4(blah,blah,blah,1.0);//added
     gl_FragColor = fColor;
 }
 </script>
@@ -72,6 +76,6 @@ Oops ... your browser doesn't support the HTML5 canvas element
 <button id = "ButtonZ">Rotate Z</button>
 <button id = "ButtonT">Toggle Rotation</button>
 <button id = "ButtonS">Switch between checkerboard and an even better procedural texture</button>
-</p>  
+</p>
 </body>
 </html>
