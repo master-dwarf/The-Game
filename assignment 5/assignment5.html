@@ -41,20 +41,25 @@ void main()//mod in here
     vec4 ambient = ambientProduct;
 
     float Kd = max( dot(L, N), 0.0 );
-    vec4  diffuse = Kd*diffuseProduct;
+    vec4  diffuse = Kd * diffuseProduct;
 
     float Ks = pow( max(dot(N, H), 0.0), shininess );
     vec4  specular = Ks * specularProduct;
 
     if( dot(L, N) < 0.0 ) specular = vec4(0.0, 0.0, 0.0, 1.0);
 
-    fColor = ambient + diffuse +specular;
+    fColor = ambient + diffuse + specular;
     fColor.a = 1.0;
 
     float two = 2.0;// added
     float blah = mod((pos.x + pos.y + pos.z), two);//added
+        
+    if (blah < 1.0) {
+        fColor = fColor + vec4(0.1, 1.0, 0.1, 1.0);//added
+    } else {
+        fColor = fColor + vec4(0.1, 0.1, 1.0, 1.0);//added
+    }
 
-    fColor = vec4(blah,blah,blah,1.0);//added
     gl_FragColor = fColor;
 }
 </script>
@@ -68,14 +73,14 @@ void main()//mod in here
 
 <body>
 <canvas id="gl-canvas" width="600" height="600">
-Oops ... your browser doesn't support the HTML5 canvas element
+    Oops ... your browser doesn't support the HTML5 canvas element
 </canvas>
 <p>
-<button id = "ButtonX">Rotate X</button>
-<button id = "ButtonY">Rotate Y</button>
-<button id = "ButtonZ">Rotate Z</button>
-<button id = "ButtonT">Toggle Rotation</button>
-<button id = "ButtonS">Switch between checkerboard and an even better procedural texture</button>
+    <button id = "ButtonX">Rotate X</button>
+    <button id = "ButtonY">Rotate Y</button>
+    <button id = "ButtonZ">Rotate Z</button>
+    <button id = "ButtonT">Toggle Rotation</button>
+    <button id = "ButtonS">Switch between checkerboard and an even better procedural texture</button>
 </p>
 </body>
 </html>

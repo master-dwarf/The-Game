@@ -57,7 +57,7 @@ nbezier = function(u) {
 put_data_to_vb = function (data, ndata) {
 
     for(var i=0; i<numDivisions; i++)
-	for(var j =0; j<numDivisions; j++) {
+	   for(var j =0; j<numDivisions; j++) {
             points.push(data[i][j]);
             normals.push(ndata[i][j]);
 	    
@@ -85,90 +85,90 @@ compute_patch_points = function () {
 
     patch = new Array(numPatches);
     for(var i=0; i<numPatches; i++)
-	patch[i] = new Array(16);
+	   patch[i] = new Array(16);
     for(var i=0; i<numPatches; i++) 
 	// 16 vertices for one cubic Bezier patch
         for(j=0; j<16; j++) {
             patch[i][j] = vec4([vertices[indices[i][j]][0],
 				vertices[indices[i][j]][2], 
 				vertices[indices[i][j]][1], 1.0]);
-	}
-
-    for ( var n = 0; n < numPatches; n++ ) {
-	// Compute all data points on one patch
-	var data = new Array(numDivisions+1);
-	for(var j = 0; j<= numDivisions; j++)
-	    data[j] = new Array(numDivisions+1);
-	for(var i=0; i<=numDivisions; i++)
-	    for(var j=0; j<= numDivisions; j++) { 
-		data[i][j] = vec4(0,0,0,1);
-		var u = i*h;
-		var v = j*h;
-		var t = new Array(4);
-		for(var ii=0; ii<4; ii++)
-		    t[ii]=new Array(4);
-		for(var ii=0; ii<4; ii++)
-		    for(var jj=0; jj<4; jj++) 
-			t[ii][jj] = bezier(u)[ii]*bezier(v)[jj];
-		
-		for(var ii=0; ii<4; ii++)
-		    for(var jj=0; jj<4; jj++) {
-			// MV's scale operation will actually do the
-			// matrix operation we need evaluate the 3-D
-			// analogue of the Bezier matrix on the last
-			// slide from November 10 notes
-			temp = vec4(patch[n][4*ii+jj]);            
-			temp = scale( t[ii][jj], temp);
-			// Use MV's add function to add the vec4's
-			// data[i][j], which is [0,0,0,1] and temp,
-			// which has the first three coordinates we
-			// want
-			data[i][j] = add(data[i][j], temp);
-		    }
 	    }
 
-	// Compute normals for this patch
-
-	var ndata = new Array(numDivisions+1);
-	for(var j = 0; j<= numDivisions; j++) ndata[j] = new Array(numDivisions+1);
-	var tdata = new Array(numDivisions+1);
-	for(var j = 0; j<= numDivisions; j++) tdata[j] = new Array(numDivisions+1);
-	var sdata = new Array(numDivisions+1);
-	for(var j = 0; j<= numDivisions; j++) sdata[j] = new Array(numDivisions+1);
-	for(var i=0; i<=numDivisions; i++) for(var j=0; j<= numDivisions; j++) { 
-            ndata[i][j] = vec4(0,0,0,0);
-            sdata[i][j] = vec4(0,0,0,0);
-            tdata[i][j] = vec4(0,0,0,0);
-            var u = i*h;
-            var v = j*h;
-            var tt = new Array(4);
-            for(var ii=0; ii<4; ii++) tt[ii]=new Array(4);
-            var ss = new Array(4);
-            for(var ii=0; ii<4; ii++) ss[ii]=new Array(4);
-
-            for(var ii=0; ii<4; ii++) for(var jj=0; jj<4; jj++) { 
-		tt[ii][jj] = nbezier(u)[ii]*bezier(v)[jj];
-		ss[ii][jj] = bezier(u)[ii]*nbezier(v)[jj];
-            }
-
-            for(var ii=0; ii<4; ii++) for(var jj=0; jj<4; jj++) {
-		var temp = vec4(patch[n][4*ii+jj]); ;            
-		temp = scale( tt[ii][jj], temp);
-		tdata[i][j] = add(tdata[i][j], temp);
-		
-		var stemp = vec4(patch[n][4*ii+jj]); ;            
-		stemp = scale( ss[ii][jj], stemp);
-		sdata[i][j] = add(sdata[i][j], stemp);
-
-            }
-            temp = cross(tdata[i][j], sdata[i][j])
-            
-            ndata[i][j] =  normalize(vec4(temp[0], temp[1], temp[2], 0));
-	}  // End normal computation
-
-	// Then push the coordinate and normal points for this patch
-	// to the vertex buffer array
-	put_data_to_vb(data, ndata);
+    for ( var n = 0; n < numPatches; n++ ) {
+    	// Compute all data points on one patch
+    	var data = new Array(numDivisions+1);
+    	for(var j = 0; j<= numDivisions; j++)
+    	    data[j] = new Array(numDivisions+1);
+    	for(var i=0; i<=numDivisions; i++)
+    	    for(var j=0; j<= numDivisions; j++) { 
+        		data[i][j] = vec4(0,0,0,1);
+        		var u = i*h;
+        		var v = j*h;
+        		var t = new Array(4);
+        		for(var ii=0; ii<4; ii++)
+        		    t[ii]=new Array(4);
+        		for(var ii=0; ii<4; ii++)
+        		    for(var jj=0; jj<4; jj++) 
+        			t[ii][jj] = bezier(u)[ii]*bezier(v)[jj];
+        		
+        		for(var ii=0; ii<4; ii++)
+        		    for(var jj=0; jj<4; jj++) {
+            			// MV's scale operation will actually do the
+            			// matrix operation we need evaluate the 3-D
+            			// analogue of the Bezier matrix on the last
+            			// slide from November 10 notes
+            			temp = vec4(patch[n][4*ii+jj]);            
+            			temp = scale( t[ii][jj], temp);
+            			// Use MV's add function to add the vec4's
+            			// data[i][j], which is [0,0,0,1] and temp,
+            			// which has the first three coordinates we
+            			// want
+            			data[i][j] = add(data[i][j], temp);
+        		    }
+    	    }
+    
+    	// Compute normals for this patch
+    
+    	var ndata = new Array(numDivisions+1);
+    	for(var j = 0; j<= numDivisions; j++) ndata[j] = new Array(numDivisions+1);
+    	var tdata = new Array(numDivisions+1);
+    	for(var j = 0; j<= numDivisions; j++) tdata[j] = new Array(numDivisions+1);
+    	var sdata = new Array(numDivisions+1);
+    	for(var j = 0; j<= numDivisions; j++) sdata[j] = new Array(numDivisions+1);
+    	for(var i=0; i<=numDivisions; i++) for(var j=0; j<= numDivisions; j++) { 
+                ndata[i][j] = vec4(0,0,0,0);
+                sdata[i][j] = vec4(0,0,0,0);
+                tdata[i][j] = vec4(0,0,0,0);
+                var u = i*h;
+                var v = j*h;
+                var tt = new Array(4);
+                for(var ii=0; ii<4; ii++) tt[ii]=new Array(4);
+                var ss = new Array(4);
+                for(var ii=0; ii<4; ii++) ss[ii]=new Array(4);
+    
+                for(var ii=0; ii<4; ii++) for(var jj=0; jj<4; jj++) { 
+            		tt[ii][jj] = nbezier(u)[ii]*bezier(v)[jj];
+            		ss[ii][jj] = bezier(u)[ii]*nbezier(v)[jj];
+                }
+    
+                for(var ii=0; ii<4; ii++) for(var jj=0; jj<4; jj++) {
+            		var temp = vec4(patch[n][4*ii+jj]); ;            
+            		temp = scale( tt[ii][jj], temp);
+            		tdata[i][j] = add(tdata[i][j], temp);
+            		
+            		var stemp = vec4(patch[n][4*ii+jj]); ;            
+            		stemp = scale( ss[ii][jj], stemp);
+            		sdata[i][j] = add(sdata[i][j], stemp);
+    
+                }
+                temp = cross(tdata[i][j], sdata[i][j])
+                
+                ndata[i][j] =  normalize(vec4(temp[0], temp[1], temp[2], 0));
+    	}  // End normal computation
+    
+    	// Then push the coordinate and normal points for this patch
+    	// to the vertex buffer array
+    	put_data_to_vb(data, ndata);
 
     }
 
