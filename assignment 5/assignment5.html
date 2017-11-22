@@ -13,11 +13,11 @@ uniform vec4 lightPosition;
 
 void main()//mod in here
 {
-    pos = (modelViewMatrix * vPosition).xyz;
+    pos = (vPosition).xyz;
     vec3 light = lightPosition.xyz;
     L = normalize( light - pos );
     E = normalize(pos);
-    N = normalize( (modelViewMatrix*vNormal).xyz);
+    N = normalize((modelViewMatrix*vNormal).xyz);
     gl_Position = projectionMatrix * modelViewMatrix * vPosition;
 
 }
@@ -54,9 +54,10 @@ void main()//mod in here
     fColor.a = 1.0;
 
     float two = 2.0;// added
-    float blah = mod((pos.x + pos.y + pos.z), two);//added
+    float sum = (pos.x + pos.y + pos.z) * 4.0;
+    float blah = mod(sum, two);//added
         
-    if (blah < 1.0) {
+    if (floor(blah) == 0.0) {
         fColor = fColor + vec4(0.1, 1.0, 0.1, 1.0);//added
     } else {
         fColor = fColor + vec4(0.1, 0.1, 1.0, 1.0);//added
