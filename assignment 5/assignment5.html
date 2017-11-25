@@ -54,18 +54,7 @@ void main()//mod in here
     fColor = ambient + diffuse + specular;
     fColor.a = 1.0;
 
-
-    //noise for teapot
-      // float sum = (pos.x + pos.y + pos.z) * 4.0;
-      // float modTwo = mod(sum, 2.0);//added
-      //
-      // if (floor(modTwo) == 0.0) {
-      //     fColor = fColor + vec4(0.1, 1.0, 0.1, 1.0);//added
-      // } else {
-      //     fColor = fColor + vec4(0.1, 0.1, 1.0, 1.0);//added
-      // }
-
-    //checkerboard
+    if(textureNum==0){  //Checkerboard
       float sum = floor(pos.x) + floor(pos.y) + floor(pos.z);
       if (mod(sum, 2.0) > 0.5) {  // sum is odd
         fColor = fColor + vec4(0.1, 1.0, 0.1, 1.0);
@@ -73,6 +62,17 @@ void main()//mod in here
       else {  // a+b+c is even
         fColor = fColor + vec4(0.1, 0.1, 1.0, 1.0);
       }
+    }
+    else {  //noise
+      float sum = (pos.x + pos.y + pos.z) * 4.0;
+      float modTwo = mod(sum, 2.0);//added
+
+      if (floor(modTwo) == 0.0) {
+          fColor = fColor + vec4(0.1, 1.0, 0.1, 1.0);//added
+      } else {
+          fColor = fColor + vec4(0.1, 0.1, 1.0, 1.0);//added
+      }
+    }
 
     gl_FragColor = fColor;
 }
