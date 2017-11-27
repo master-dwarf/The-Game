@@ -1,5 +1,16 @@
 <!DOCTYPE html>
 <html>
+<!-- Cory Lewis & Grady Hilgendorf
+      Info: the Teapot rotates on one of its axis's. We completed the Checkerboard texture
+          along with another pattern. Due to complications, changing the textrues does not
+          work, so we chose to display the complicated texture we generated. We started out
+          with simple stripes that proceded along a certain radius. Next we played around with
+          adding differenting patterns with sin, cos, and tan. As a result we have a randomly
+          swirled pink, red, green, teal, and black.
+      Golly Gee Wiz points: added speed up and down buttons that increase or decrease the
+          rotation speed of the teapot. A small tweak was needed in the JS code to complete
+          this as making a variable global and changing the angle of the axis increasingly equal
+          to the new variable.-->
 
 
 <script id="vertex-shader" type="x-shader/x-vertex">
@@ -54,7 +65,7 @@ void main()//mod in here
     fColor = ambient + diffuse + specular;
     fColor.a = 1.0;
 
-    if(textureNum==0){  //Checkerboard
+    if(textureNum > 0){  //Checkerboard
       float sum = floor(pos.x) + floor(pos.y) + floor(pos.z);
       if (mod(sum, 2.0) > 0.5) {  // sum is odd
         fColor = fColor + vec4(0.1, 1.0, 0.1, 1.0);
@@ -67,10 +78,10 @@ void main()//mod in here
       float sum = (pos.x + pos.y + pos.z) * 4.0;
       float modTwo = mod(sum, 2.0);//added
 
-      if (floor(modTwo) == 0.0) {
-          fColor = fColor + vec4(0.1, 1.0, 0.1, 1.0);//added
+      if (modTwo > 0.5) {
+          fColor = fColor + vec4(cos(tan(sum*pos.x)), sin(tan(sum+pos.y)), tan(cos(sum/pos.z)), 1.0);//added
       } else {
-          fColor = fColor + vec4(0.1, 0.1, 1.0, 1.0);//added
+          fColor = fColor + vec4(sin(tan(sum/pos.x)), cos(tan(sum*pos.y)), tan(sin(sum+pos.z)), 1.0);//added
       }
     }
 
@@ -94,9 +105,24 @@ void main()//mod in here
     <button id = "ButtonY">Rotate Y</button>
     <button id = "ButtonZ">Rotate Z</button>
     <button id = "ButtonT">Toggle Rotation</button>
-    <p><label><b>Procedural Texture:</b><br> <select id="texture">
-    <option value="0">Checkerboard 3D</option>
-    <option value="1">something else</option>
+    <button id = "changing">Change Between</button>
+    <button id = "speedup">Speed Up</button>
+    <button id = "slow">Slow Down</button>
+    <div id="speed">Speed = 0.5</div>
+    <script type="text/javascript">
+      document.getElementById("speedup").onclick = function(){
+        if(speed != 10){
+          speed += 0.5;
+          document.getElementById("speed").innerHTML = "Speed = " + speed;
+        }
+      }
+      document.getElementById("slow").onclick = function(){
+        if(speed != 0.5){
+          speed-=0.5;
+          document.getElementById("speed").innerHTML = "Speed = " + speed;
+        }
+      }
+    </script>
 </select></label>
 </body>
 </html>

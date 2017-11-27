@@ -21,6 +21,8 @@ var xAxis = 0;
 var yAxis = 1;
 var zAxis = 2;
 
+var speed = 0.5;
+
 var program;
 
 var flag = true;		// flag to toggle rotation
@@ -92,7 +94,7 @@ compute_patch_points = function () {
 	// 16 vertices for one cubic Bezier patch
         for(j=0; j<16; j++) {
             patch[i][j] = vec4([vertices[indices[i][j]][0],
-				vertices[indices[i][j]][2], 
+				vertices[indices[i][j]][2],
 				vertices[indices[i][j]][1], 1.0]);
         }
     }
@@ -104,7 +106,7 @@ compute_patch_points = function () {
             data[j] = new Array(numDivisions+1);
         }
         for(i=0; i<=numDivisions; i++) {
-            for(j=0; j<= numDivisions; j++) { 
+            for(j=0; j<= numDivisions; j++) {
                 data[i][j] = vec4(0,0,0,1);
                 var u = i*h;
                 var v = j*h;
@@ -124,7 +126,7 @@ compute_patch_points = function () {
                         // matrix operation we need evaluate the 3-D
                         // analogue of the Bezier matrix on the last
                         // slide from November 10 notes
-                        temp = vec4(patch[n][4*ii+jj]);            
+                        temp = vec4(patch[n][4*ii+jj]);
                         temp = scale( t[ii][jj], temp);
                         // Use MV's add function to add the vec4's
                         // data[i][j], which is [0,0,0,1] and temp,
@@ -135,12 +137,12 @@ compute_patch_points = function () {
                 }
             }
         }
-    
+
         // Compute normals for this patch
-    
+
         var ndata = new Array(numDivisions+1);
-        for(j = 0; j<= numDivisions; j++) { 
-            ndata[j] = new Array(numDivisions+1); 
+        for(j = 0; j<= numDivisions; j++) {
+            ndata[j] = new Array(numDivisions+1);
         }
         var tdata = new Array(numDivisions+1);
         for(j = 0; j<= numDivisions; j++) {
@@ -150,7 +152,7 @@ compute_patch_points = function () {
         for(j = 0; j<= numDivisions; j++) {
             sdata[j] = new Array(numDivisions+1);
         }
-        for(i=0; i<=numDivisions; i++) for(j=0; j<= numDivisions; j++) { 
+        for(i=0; i<=numDivisions; i++) for(j=0; j<= numDivisions; j++) {
             ndata[i][j] = vec4(0,0,0,0);
             sdata[i][j] = vec4(0,0,0,0);
             tdata[i][j] = vec4(0,0,0,0);
@@ -166,7 +168,7 @@ compute_patch_points = function () {
             }
 
             for(ii=0; ii<4; ii++) {
-                for(jj=0; jj<4; jj++) { 
+                for(jj=0; jj<4; jj++) {
                     tt[ii][jj] = nbezier(u)[ii]*bezier(v)[jj];
                     ss[ii][jj] = bezier(u)[ii]*nbezier(v)[jj];
                 }
@@ -174,21 +176,21 @@ compute_patch_points = function () {
 
             for(ii=0; ii<4; ii++) {
                 for(jj=0; jj<4; jj++) {
-                    var temp = vec4(patch[n][4*ii+jj]);          
+                    var temp = vec4(patch[n][4*ii+jj]);
                     temp = scale( tt[ii][jj], temp);
                     tdata[i][j] = add(tdata[i][j], temp);
-                                    
-                    var stemp = vec4(patch[n][4*ii+jj]);     
+
+                    var stemp = vec4(patch[n][4*ii+jj]);
                     stemp = scale( ss[ii][jj], stemp);
                     sdata[i][j] = add(sdata[i][j], stemp);
                 }
 
             }
             temp = cross(tdata[i][j], sdata[i][j]);
-            
+
             ndata[i][j] =  normalize(vec4(temp[0], temp[1], temp[2], 0));
         }  // End normal computation
-    
+
         // Then push the coordinate and normal points for this patch
         // to the vertex buffer array
         put_data_to_vb(data, ndata);
@@ -198,14 +200,14 @@ compute_patch_points = function () {
 
 
 onload = function init()  {
-    
+
     canvas = document.getElementById( "gl-canvas" );
-    
+
     gl = WebGLUtils.setupWebGL( canvas );
     if ( !gl ) { alert( "WebGL isn't available" ); }
 
     gl.viewport( 0, 0, canvas.width, canvas.height );
-    
+
     gl.clearColor( 0.0, 0.0, 0.0, 1.0 );
 
     gl.enable(gl.DEPTH_TEST);
@@ -213,29 +215,29 @@ onload = function init()  {
     compute_patch_points();	// Call this to fill the points array
     // with all vertex coordinates on the
     // Bezier mesh
-    
+
     document.getElementById("ButtonX").onclick = function(){axis = xAxis;};
     document.getElementById("ButtonY").onclick = function(){axis = yAxis;};
     document.getElementById("ButtonZ").onclick = function(){axis = zAxis;};
     document.getElementById("ButtonT").onclick = function(){flag = !flag;};
 
     program = initShaders( gl, "vertex-shader", "fragment-shader" );
-    gl.useProgram( program ); 
-       
+    gl.useProgram( program );
+
     var vBuffer = gl.createBuffer();
     gl.bindBuffer( gl.ARRAY_BUFFER, vBuffer);
     gl.bufferData( gl.ARRAY_BUFFER, flatten(points), gl.STATIC_DRAW );
 
-    
+
     var vPosition = gl.getAttribLocation( program, "vPosition" );
     gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vPosition );
 
-    
+
     var nBuffer = gl.createBuffer();
     gl.bindBuffer( gl.ARRAY_BUFFER, nBuffer);
     gl.bufferData( gl.ARRAY_BUFFER, flatten(normals), gl.STATIC_DRAW );
-    
+
     var vNormal = gl.getAttribLocation( program, "vNormal" );
     gl.vertexAttribPointer( vNormal, 4, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vNormal);
@@ -244,7 +246,7 @@ onload = function init()  {
     projection = ortho(-2.0, 2.0, -2.0, 2.0, -20, 20);
     gl.uniformMatrix4fv( gl.getUniformLocation(program, "projectionMatrix"), false, flatten(projection));
 
-    // Light settings 
+    // Light settings
     var lightPosition = vec4(0.0, 0.0, 20.0, 0.0 );
     var lightAmbient = vec4(0.2, 0.2, 0.2, 1.0 );
     var lightDiffuse = vec4( 0.75, 0.75, 0.75, 1.0 );
@@ -254,14 +256,14 @@ onload = function init()  {
     var materialDiffuse = vec4( 0.75, 0.6, 0.0, 1.0 );
     var materialSpecular = vec4( 1.0, 0.8, 0.0, 1.0 );
     var materialShininess = 100.0;
-    
+
     var ambientProduct = mult(lightAmbient, materialAmbient);
     var diffuseProduct = mult(lightDiffuse, materialDiffuse);
     var specularProduct = mult(lightSpecular, materialSpecular);
 
     gl.uniform4fv( gl.getUniformLocation(program, "ambientProduct"),flatten(ambientProduct ));
     gl.uniform4fv( gl.getUniformLocation(program, "diffuseProduct"), flatten(diffuseProduct) );
-    gl.uniform4fv( gl.getUniformLocation(program, "specularProduct"),flatten(specularProduct));	
+    gl.uniform4fv( gl.getUniformLocation(program, "specularProduct"),flatten(specularProduct));
     gl.uniform4fv( gl.getUniformLocation(program, "lightPosition"), flatten(lightPosition ));
     gl.uniform1f( gl.getUniformLocation(program, "shininess"),materialShininess );
 
@@ -273,18 +275,18 @@ onload = function init()  {
 
 var render = function(){
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-    
-    if(flag) theta[axis] += 0.5;
-    
+
+    if(flag) theta[axis] += speed;
+
     modelView = mat4();
-    
+
     modelView = mult(modelView, rotate(theta[xAxis], [1, 0, 0]));
     modelView = mult(modelView, rotate(theta[yAxis], [0, 1, 0]));
     modelView = mult(modelView, rotate(theta[zAxis], [0, 0, 1]));
 
 
     gl.uniformMatrix4fv( gl.getUniformLocation(program, "modelViewMatrix"), false, flatten(modelView) );
-    
+
     gl.drawArrays( gl.TRIANGLES, 0, points.length);
 
     requestAnimFrame(render);
