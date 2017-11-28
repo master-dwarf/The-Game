@@ -13,8 +13,8 @@ const near = 1.0;
 const far = 10000.0;
 var aspect, eyex, eyez;
 
-var width       // canvas size
-var height
+var width;      // canvas size
+var height;
 var vp1_left = 0;      // Left viewport -- the hero's view
 var vp1_bottom = 0;
 
@@ -31,6 +31,7 @@ const red  = [ 1.0, 0.0, 0.0, 1.0 ]; // pure red
 const blue = [ 0.0, 0.0, 1.0, 1.0 ]; // pure blue
 const green = [ 0.0, 1.0, 0.0, 1.0 ]; // pure green
 const yellow = [ 1.0, 1.0, 0.0, 1.0 ]; // pure yellow
+const gray = [0.5, 0.5, 0.5, 1.0]; // pure red
 
 var modelViewMatrix, projectionMatrix;
 var modelViewMatrixLoc, projectionMatrixLoc;
@@ -89,7 +90,7 @@ window.onload = function init(){
     thingSeeking = new ThingSeeking(program, ARENASIZE / 4.0, 0.0, -ARENASIZE / 4.0, 0, 10.0);
     thingSeeking.init();
 
-    villain = new Villain(program, (3 * ARENASIZE) / 4.0, 0.0, -ARENASIZE / 4.0, 0, 10.0);
+    villain = new Villain(program, 3 * ARENASIZE / 4.0, 0.0, -ARENASIZE / 4.0, 0, 10.0);
     villain.init();
 
     render();
@@ -117,8 +118,8 @@ function render()
     villain.show();
 
     // Overhead viewport
-    var horiz_offset = (width * (1.0 - HERO_VP) / 20.0);
-    gl.viewport(vp1_left + (.75 * width), vp1_bottom + (height * .75), width - (.75 * width), height - (height * .75));
+    var horiz_offset = width * (1.0 - HERO_VP) / 20.0;
+    gl.viewport(vp1_left + .75 * width, vp1_bottom + height * .75, width - .75 * width, height - height * .75);
     modelViewMatrix = lookAt(vec3(500.0, 100.0, -500.0), vec3(500.0, 0.0, -500.0), vec3(0.0, 0.0, -1.0));
     projectionMatrix = ortho(-500, 500, -500, 500, 0, 200);
     gl.uniformMatrix4fv( modelViewMatrixLoc, false, flatten(modelViewMatrix) );
@@ -131,7 +132,7 @@ function render()
     collision();
 
     requestAnimFrame( render );
-};
+}
 
 function fit(){
     width = window.innerWidth;
@@ -156,7 +157,7 @@ function collision(){
   var totalDistanceHeroVillain = Math.sqrt(distanceXHeroVillain*distanceXHeroVillain
     + distanceZHeroVillain*distanceZHeroVillain);
   var totalDistanceHeroSeeking = Math.sqrt(distanceXHeroSeek*distanceXHeroSeek
-    + distanceZHeroSeek*distanceZHeroSeek)
+    + distanceZHeroSeek*distanceZHeroSeek);
 
   if(totalDistanceHeroVillain <= hero.bounding_cir_rad + villain.bounding_cir_rad){
     //console.log("you are touching the villain");//tells if touching each other.
@@ -169,7 +170,7 @@ function collision(){
   if(hero.x<0 || hero.x>ARENASIZE){
     return "wall";
   }
-  if(hero.z>0 || hero.z<(-ARENASIZE)){
+  if(hero.z>0 || hero.z < -ARENASIZE){
     return "wall";
   }
   return 0;
@@ -189,9 +190,9 @@ window.onkeydown = function(event) {
             if(collision()<0){
               hero.move(2.0,0);
               window.alert("you have lost. :(");
-            } else if(collision()==1) {
+            } else if(collision()===1) {
                 window.alert("you have won!");
-            } else if(collision()=="wall") {
+            } else if(collision()==="wall") {
                 hero.move(2.0,0);
             }
             break;
@@ -201,9 +202,9 @@ window.onkeydown = function(event) {
             if(collision()<0) {
               hero.move(-2.0,0);
               window.alert("you have lost. :(");
-            } else if(collision()==1) {
+            } else if(collision()===1) {
                 window.alert("you have won!");
-            } else if(collision()=="wall") {
+            } else if(collision()==="wall") {
                 hero.turn(180);
             }
             break;

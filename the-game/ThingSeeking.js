@@ -4,18 +4,18 @@
 function ThingSeeking(program, x, y, z, degrees, bounding_cir_rad)  {
     GameObject.call(this, program, x, y, z, degrees, bounding_cir_rad);
 
-    this.thingSeekingVertices = vwMesh.vertices[0].values;
+    this.thingSeekingVertices = swordMesh.vertices[0].values;
 
-    this.thingSeekingNormals = vwMesh.vertices[1].values;
+    this.thingSeekingNormals = swordMesh.vertices[1].values;
 
-    this.thingSeekingIndices = vwMesh.connectivity[0].indices;
+    this.thingSeekingIndices = swordMesh.connectivity[0].indices;
 
     this.vBuffer = null;
     this.nBuffer = null;
     this.iBuffer = null;
     this.vPosition = null;
     this.vNormal = null;
-};
+}
 
 ThingSeeking.prototype = Object.create(GameObject.prototype);
 
@@ -37,14 +37,14 @@ ThingSeeking.prototype.init = function() {
 ThingSeeking.prototype.show = function() {
 
     g_matrixStack.push(modelViewMatrix);
-    modelViewMatrix = mult(modelViewMatrix, translate(this.x, 0.0, this.z));
-    modelViewMatrix = mult(modelViewMatrix, scalem(0.8, 0.8, 0.8));
+    modelViewMatrix = mult(modelViewMatrix, translate(this.x, 8.0, this.z));
+    modelViewMatrix = mult(modelViewMatrix, scalem(0.008, 0.008, 0.008));
 
     gl.bindBuffer( gl.ARRAY_BUFFER, this.vBuffer );
     this.vPosition = gl.getAttribLocation( program, "vPosition" );
 
     if (this.vPosition < 0) {
-	    console.log('Failed to get the storage location of vPosition');
+        console.log('Failed to get the storage location of vPosition');
     }
 
     gl.vertexAttribPointer(this.vPosition, 3, gl.FLOAT, false, 0, 0);
@@ -54,7 +54,7 @@ ThingSeeking.prototype.show = function() {
     this.vNormal = gl.getAttribLocation( program, "vNormal" );
 
     if (this.vPosition < 0) {
-	    console.log('Failed to get the storage location of vPosition');
+        console.log('Failed to get the storage location of vPosition');
     }
 
     gl.vertexAttribPointer( this.vNormal, 3, gl.FLOAT, false, 0, 0 );
@@ -62,9 +62,9 @@ ThingSeeking.prototype.show = function() {
 
     gl.bindBuffer( gl.ELEMENT_ARRAY_BUFFER, this.iBuffer );
 
-    var ambientProduct = mult(la0, red);
-    var diffuseProduct = mult(ld0, red);
-    var specularProduct = mult(ls0, red);
+    var ambientProduct = mult(la0, gray);
+    var diffuseProduct = mult(ld0, gray);
+    var specularProduct = mult(ls0, gray);
     
     gl.uniform4fv(gl.getUniformLocation(program, "ambientProduct"), flatten(ambientProduct));
     gl.uniform4fv(gl.getUniformLocation(program, "diffuseProduct"), flatten(diffuseProduct) );
