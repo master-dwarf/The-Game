@@ -27,6 +27,9 @@ var program;
 
 var flag = true;		// flag to toggle rotation
 
+var text = 3; // Added for toggling between textures
+var text2 = 2; // Added for toggling between textures
+
 // Return an array with the Bernstein polys of degree three evaluated
 // at u
 bezier = function(u) {
@@ -198,7 +201,6 @@ compute_patch_points = function () {
     }
 };
 
-
 onload = function init()  {
 
     canvas = document.getElementById( "gl-canvas" );
@@ -220,6 +222,17 @@ onload = function init()  {
     document.getElementById("ButtonY").onclick = function(){axis = yAxis;};
     document.getElementById("ButtonZ").onclick = function(){axis = zAxis;};
     document.getElementById("ButtonT").onclick = function(){flag = !flag;};
+    
+    // Added for toggling between textures
+    document.getElementById("changing").onclick = function(){
+        var textLoc = gl.getUniformLocation(program, "textureNum");
+        if (text2 === text) { 
+            text2 = 2; 
+        } else { 
+            text2 = 3; 
+        }
+        gl.uniform1i(textLoc, (text % text2));
+    };
 
     program = initShaders( gl, "vertex-shader", "fragment-shader" );
     gl.useProgram( program );
