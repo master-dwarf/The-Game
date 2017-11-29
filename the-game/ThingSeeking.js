@@ -10,6 +10,8 @@ function ThingSeeking(program, x, y, z, degrees, bounding_cir_rad)  {
 
     this.thingSeekingIndices = swordMesh.connectivity[0].indices;
 
+    this.rotate = 0;
+    
     this.vBuffer = null;
     this.nBuffer = null;
     this.iBuffer = null;
@@ -37,8 +39,10 @@ ThingSeeking.prototype.init = function() {
 ThingSeeking.prototype.show = function() {
 
     g_matrixStack.push(modelViewMatrix);
+    this.rotate = this.rotate + 0.5;
     modelViewMatrix = mult(modelViewMatrix, translate(this.x, 8.0, this.z));
     modelViewMatrix = mult(modelViewMatrix, scalem(0.008, 0.008, 0.008));
+    modelViewMatrix = mult(modelViewMatrix, rotateY(this.rotate));
 
     gl.bindBuffer( gl.ARRAY_BUFFER, this.vBuffer );
     this.vPosition = gl.getAttribLocation( program, "vPosition" );
