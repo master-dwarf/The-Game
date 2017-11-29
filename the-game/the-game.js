@@ -48,6 +48,7 @@ var g_matrixStack = []; // Stack for storing a matrix
 window.onload = function init(){
     canvas = document.getElementById( "gl-canvas" );
     fit();
+    timer();
 
        // gl = WebGLUtils.setupWebGL( canvas );
     gl = WebGLDebugUtils.makeDebugContext( canvas.getContext("webgl") ); // For debugging
@@ -114,7 +115,9 @@ function render()
     gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten(projectionMatrix) );
     arena.show();
     hero.show();
-    thingSeeking.show();
+    if(document.getElementById("seconds").innerHTML >= 10){
+      thingSeeking.show();
+    }
     villain.show();
 
     // Overhead viewport
@@ -126,12 +129,45 @@ function render()
     gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten(projectionMatrix) );
     arena.show();
     hero.show();
-    thingSeeking.show();
+    if(document.getElementById("seconds").innerHTML >= 10){
+      thingSeeking.show();
+    }
     villain.show();
 
     collision();
 
     requestAnimFrame( render );
+}
+
+function timer(){
+  var minutes = 00;
+  var seconds = 00;
+  var appendSeconds = document.getElementById("seconds");
+  var appendMinutes = document.getElementById("minutes");
+  var Interval ;
+
+  Interval = setInterval(startTimer, 1000);
+
+  function startTimer () {
+    seconds++;
+
+    if (seconds < 10) {
+      appendSeconds.innerHTML = "0" + seconds;
+    }
+    if(seconds > 10) {
+      appendSeconds.innerHTML = seconds;
+    }
+    if(seconds > 59){
+      minutes++;
+      appendMinutes.innerHTML = "0" + minutes;
+      seconds = 0;
+      appendSeconds.innerHTML = "0" + 0;
+    }
+    if (minutes > 9){
+      appendMinutes.innerHTML = minutes;
+    }
+  }
+
 }
 
 function fit(){
