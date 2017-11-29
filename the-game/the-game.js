@@ -31,7 +31,7 @@ const red  = [ 1.0, 0.0, 0.0, 1.0 ]; // pure red
 const blue = [ 0.0, 0.0, 1.0, 1.0 ]; // pure blue
 const green = [ 0.0, 1.0, 0.0, 1.0 ]; // pure green
 const yellow = [ 1.0, 1.0, 0.0, 1.0 ]; // pure yellow
-const gray = [0.5, 0.5, 0.5, 1.0]; // pure red
+const gray = [0.5, 0.5, 0.5, 1.0]; // gray
 
 var modelViewMatrix, projectionMatrix;
 var modelViewMatrixLoc, projectionMatrixLoc;
@@ -95,12 +95,12 @@ window.onload = function init(){
     villain = new Villain(program, 3 * ARENASIZE / 4.0, 0.0, -ARENASIZE / 4.0, 0, 10.0);
     villain.init();
     
-    thwomp = new Thwomp(program, 3 * ARENASIZE / 5.0, 0.0, -ARENASIZE / 4.0, 0, 10.0);
+    thwomp = new Thwomp(program, ARENASIZE / 3.0, 0.0, -ARENASIZE / 6.0, 0, 10.0);
     thwomp.init();
 
     render();
 };
-
+var count = 0;
 function render()
 {
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -142,16 +142,23 @@ function render()
 
     collision();
     villain.move(1);
+    if (count === 25) {
+      thwomp.turn(90);
+      count = 0;
+    } else {
+      thwomp.move(-6);
+      count++;
+    }
 
     requestAnimFrame( render );
 }
 
 function timer(){
-  var minutes = 00;
-  var seconds = 00;
+  var minutes = 0;
+  var seconds = 0;
   var appendSeconds = document.getElementById("seconds");
   var appendMinutes = document.getElementById("minutes");
-  var Interval ;
+  var Interval;
 
   Interval = setInterval(startTimer, 1000);
 

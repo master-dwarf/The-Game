@@ -53,7 +53,7 @@ function Thwomp(program, x, y, z, degrees, bounding_cir_rad)  {
         0, 0, 1, 0, 1, 1, 0, 1
     ];
     
-};
+}
 
 Thwomp.prototype = Object.create(GameObject.prototype);
 
@@ -106,7 +106,7 @@ Thwomp.prototype.show = function() {
     this.vPosition = gl.getAttribLocation( program, "vPosition" );
 
     if (this.vPosition < 0) {
-	    console.log('Failed to get the storage location of vPosition');
+        console.log('Failed to get the storage location of vPosition');
     }
 
     gl.vertexAttribPointer(this.vPosition, 3, gl.FLOAT, false, 0, 0);
@@ -116,7 +116,7 @@ Thwomp.prototype.show = function() {
     this.vNormal = gl.getAttribLocation( program, "vNormal" );
 
     if (this.vPosition < 0) {
-	    console.log('Failed to get the storage location of vPosition');
+        console.log('Failed to get the storage location of vPosition');
     }
 
     gl.vertexAttribPointer( this.vNormal, 3, gl.FLOAT, false, 0, 0 );
@@ -126,7 +126,7 @@ Thwomp.prototype.show = function() {
     this.vTexCoord = gl.getAttribLocation( program, "vTexCoord");
 
     if (this.vTexCoord < 0) {
-	    console.log('Failed to get the storage location of vTexCoord');
+        console.log('Failed to get the storage location of vTexCoord');
     }
 
     gl.vertexAttribPointer(this.vTexCoord, 2, gl.FLOAT, false, 0, 0);
