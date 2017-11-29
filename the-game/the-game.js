@@ -115,7 +115,7 @@ function render()
     gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten(projectionMatrix) );
     arena.show();
     hero.show();
-    if(document.getElementById("seconds").innerHTML >= 10){
+    if(document.getElementById("seconds").innerHTML > 9){
       thingSeeking.show();
     }
     villain.show();
@@ -129,7 +129,7 @@ function render()
     gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten(projectionMatrix) );
     arena.show();
     hero.show();
-    if(document.getElementById("seconds").innerHTML >= 10){
+    if(document.getElementById("seconds").innerHTML > 9){
       thingSeeking.show();
     }
     villain.show();
@@ -154,7 +154,7 @@ function timer(){
     if (seconds < 10) {
       appendSeconds.innerHTML = "0" + seconds;
     }
-    if(seconds > 10) {
+    if(seconds > 9) {
       appendSeconds.innerHTML = seconds;
     }
     if(seconds > 59){
