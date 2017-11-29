@@ -1,7 +1,7 @@
 //////////////////////////  Villain class /////////////////////////////////
 
 
-function Villain(program, x, y, z, degrees, bounding_cir_rad)  {
+function Thwomp(program, x, y, z, degrees, bounding_cir_rad)  {
     GameObject.call(this, program, x, y, z, degrees, bounding_cir_rad);
 
     // Not all of these are used, depending on whether you texture the
@@ -55,10 +55,10 @@ function Villain(program, x, y, z, degrees, bounding_cir_rad)  {
     
 };
 
-Villain.prototype = Object.create(GameObject.prototype);
+Thwomp.prototype = Object.create(GameObject.prototype);
 
 
-Villain.prototype.init = function() {
+Thwomp.prototype.init = function() {
      
     this.vBuffer = gl.createBuffer();
     gl.bindBuffer( gl.ARRAY_BUFFER, this.vBuffer );
@@ -80,39 +80,23 @@ Villain.prototype.init = function() {
     // http://webglstats.com/webgl/parameter/MAX_TEXTURE_IMAGE_UNITS
     
     // Texture 0
-    var image0 = new Image();
-    image0.crossOrigin = "anonymous";
-    image0.src = "bingley128.png";   
-    image0.onload = function() { 
-	var texture0 = gl.createTexture();
-        gl.activeTexture( gl.TEXTURE0);
-        gl.bindTexture( gl.TEXTURE_2D, texture0 );
+    var image2 = new Image();
+    image2.crossOrigin = "anonymous";
+    image2.src = "Thwomp.png";   
+    image2.onload = function() { 
+	var texture2 = gl.createTexture();
+        gl.activeTexture( gl.TEXTURE2 );
+        gl.bindTexture( gl.TEXTURE_2D, texture2 );
         gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image0);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image2);
         gl.generateMipmap( gl.TEXTURE_2D );
         gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST_MIPMAP_LINEAR );
         gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST );
-    };
-    
-    // Texture 1
-    var image1 = new Image();
-    image1.crossOrigin = "anonymous";
-    image1.src = "darcy128.png"; 
-    image1.onload = function() { 
-        var texture1 = gl.createTexture();
-        gl.activeTexture( gl.TEXTURE1);
-        gl.bindTexture( gl.TEXTURE_2D, texture1 );
-        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image1);
-        gl.generateMipmap( gl.TEXTURE_2D );
-        gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST_MIPMAP_LINEAR );
-        gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST );
-    };
-    
+    };    
     
 };
 
-Villain.prototype.show = function() {
+Thwomp.prototype.show = function() {
 
     g_matrixStack.push(modelViewMatrix);
     modelViewMatrix = mult(modelViewMatrix, translate(this.x, 0.0, this.z));
@@ -155,17 +139,17 @@ Villain.prototype.show = function() {
     gl.uniform1i(gl.getUniformLocation(program, "texture_flag"), 1);
     gl.uniformMatrix4fv( modelViewMatrixLoc, false, flatten(modelViewMatrix) );
 
-    gl.uniform1i(gl.getUniformLocation(program, "texture"), 0); 
+    gl.uniform1i(gl.getUniformLocation(program, "texture"), 2); 
     gl.drawElements( gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 0 );  
-    gl.uniform1i(gl.getUniformLocation(program, "texture"), 1); 
+    gl.uniform1i(gl.getUniformLocation(program, "texture"), 2); 
     gl.drawElements( gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 12 ); 
-    gl.uniform1i(gl.getUniformLocation(program, "texture"), 1);   // See from top
+    gl.uniform1i(gl.getUniformLocation(program, "texture"), 2);   // See from top
     gl.drawElements( gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 24 ); 
-    gl.uniform1i(gl.getUniformLocation(program, "texture"), 1);   // See on right
+    gl.uniform1i(gl.getUniformLocation(program, "texture"), 2);   // See on right
     gl.drawElements( gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 36 ); 
-    gl.uniform1i(gl.getUniformLocation(program, "texture"), 0); 
+    gl.uniform1i(gl.getUniformLocation(program, "texture"), 2); 
     gl.drawElements( gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 48 );
-    gl.uniform1i(gl.getUniformLocation(program, "texture"), 0);   // See on left
+    gl.uniform1i(gl.getUniformLocation(program, "texture"), 2);   // See on left
     gl.drawElements( gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 60 );
     gl.disable(gl.CULL_FACE);
     

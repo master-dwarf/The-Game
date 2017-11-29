@@ -42,6 +42,7 @@ var arena;
 var hero;
 var thingSeeking;
 var villain;
+var thwomp;
 
 var g_matrixStack = []; // Stack for storing a matrix
 
@@ -93,6 +94,9 @@ window.onload = function init(){
 
     villain = new Villain(program, 3 * ARENASIZE / 4.0, 0.0, -ARENASIZE / 4.0, 0, 10.0);
     villain.init();
+    
+    thwomp = new Thwomp(program, 3 * ARENASIZE / 5.0, 0.0, -ARENASIZE / 4.0, 0, 10.0);
+    thwomp.init();
 
     render();
 };
@@ -119,6 +123,7 @@ function render()
       thingSeeking.show();
     }
     villain.show();
+    thwomp.show();
 
     // Overhead viewport
     var horiz_offset = width * (1.0 - HERO_VP) / 20.0;
@@ -133,6 +138,7 @@ function render()
       thingSeeking.show();
     }
     villain.show();
+    thwomp.show();
 
     collision();
     villain.move(1);
@@ -187,6 +193,8 @@ function collision(){
   //           if 1, touching thingSeeking notify win.
   var distanceXHeroVillain = hero.x - villain.x;
   var distanceZHeroVillain = hero.z - villain.z;
+  var distanceXHeroThwomp = hero.x - thwomp.x;
+  var distanceZHeroThwomp = hero.z - thwomp.z; 
 
   var distanceXHeroSeek = hero.x - thingSeeking.x;
   var distanceZHeroSeek = hero.z - thingSeeking.z;
@@ -195,8 +203,11 @@ function collision(){
     + distanceZHeroVillain*distanceZHeroVillain);
   var totalDistanceHeroSeeking = Math.sqrt(distanceXHeroSeek*distanceXHeroSeek
     + distanceZHeroSeek*distanceZHeroSeek);
+  var totalDistanceHeroThwomp = Math.sqrt(distanceXHeroThwomp*distanceXHeroThwomp
+    + distanceZHeroThwomp*distanceZHeroThwomp);
 
-  if(totalDistanceHeroVillain <= hero.bounding_cir_rad + villain.bounding_cir_rad){
+  if(totalDistanceHeroVillain <= hero.bounding_cir_rad + villain.bounding_cir_rad 
+    || totalDistanceHeroThwomp <= hero.bounding_cir_rad + thwomp.bounding_cir_rad){
     //console.log("you are touching the villain");//tells if touching each other.
     return -1;
   }
