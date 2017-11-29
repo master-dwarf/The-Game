@@ -135,6 +135,7 @@ function render()
     villain.show();
 
     collision();
+    villain.move(1);
 
     requestAnimFrame( render );
 }
@@ -208,6 +209,12 @@ function collision(){
   }
   if(hero.z>0 || hero.z < -ARENASIZE){
     return "wall";
+  }
+  if(villain.x<0 || villain.x>ARENASIZE){
+    villain.turn(180);
+  }
+  if(villain.z>0 || villain.z < -ARENASIZE){
+    villain.turn(180);
   }
   return 0;
 }
