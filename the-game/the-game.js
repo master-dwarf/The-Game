@@ -43,6 +43,7 @@ var hero;
 var thingSeeking;
 var villain;
 var thwomp;
+var thwomp2;
 
 var g_matrixStack = []; // Stack for storing a matrix
 
@@ -97,6 +98,9 @@ window.onload = function init(){
     
     thwomp = new Thwomp(program, ARENASIZE / 3.0, 0.0, -ARENASIZE / 6.0, 0, 10.0);
     thwomp.init();
+    
+    thwomp2 = new Thwomp(program, ARENASIZE / 5.0, 0.0, -ARENASIZE / 3.0, 0, 10.0);
+    thwomp2.init();
 
     render();
 };
@@ -124,6 +128,7 @@ function render()
     }
     villain.show();
     thwomp.show();
+    thwomp2.show();
 
     // Overhead viewport
     var horiz_offset = width * (1.0 - HERO_VP) / 20.0;
@@ -139,14 +144,17 @@ function render()
     }
     villain.show();
     thwomp.show();
+    thwomp2.show();
 
     collision();
     villain.move(1);
     if (count === 25) {
       thwomp.turn(90);
+      thwomp2.turn(90);
       count = 0;
     } else {
-      thwomp.move(-6);
+      thwomp.move(-5);
+      thwomp2.move(5);
       count++;
     }
 
@@ -202,6 +210,8 @@ function collision(){
   var distanceZHeroVillain = hero.z - villain.z;
   var distanceXHeroThwomp = hero.x - thwomp.x;
   var distanceZHeroThwomp = hero.z - thwomp.z; 
+  var distanceXHeroThwomp2 = hero.x - thwomp2.x;
+  var distanceZHeroThwomp2 = hero.z - thwomp2.z; 
 
   var distanceXHeroSeek = hero.x - thingSeeking.x;
   var distanceZHeroSeek = hero.z - thingSeeking.z;
@@ -212,9 +222,12 @@ function collision(){
     + distanceZHeroSeek*distanceZHeroSeek);
   var totalDistanceHeroThwomp = Math.sqrt(distanceXHeroThwomp*distanceXHeroThwomp
     + distanceZHeroThwomp*distanceZHeroThwomp);
+    var totalDistanceHeroThwomp2 = Math.sqrt(distanceXHeroThwomp2*distanceXHeroThwomp2
+    + distanceZHeroThwomp2*distanceZHeroThwomp2);
 
   if(totalDistanceHeroVillain <= hero.bounding_cir_rad + villain.bounding_cir_rad 
-    || totalDistanceHeroThwomp <= hero.bounding_cir_rad + thwomp.bounding_cir_rad){
+    || totalDistanceHeroThwomp <= hero.bounding_cir_rad + thwomp.bounding_cir_rad
+    || totalDistanceHeroThwomp2 <= hero.bounding_cir_rad + thwomp2.bounding_cir_rad){
     //console.log("you are touching the villain");//tells if touching each other.
     return -1;
   }
