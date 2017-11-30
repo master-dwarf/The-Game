@@ -44,6 +44,7 @@ var thingSeeking;
 var villain;
 var thwomp;
 var thwomp2;
+var count = 0;
 
 var g_matrixStack = []; // Stack for storing a matrix
 
@@ -104,7 +105,7 @@ window.onload = function init(){
 
     render();
 };
-var count = 0;
+
 function render()
 {
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
