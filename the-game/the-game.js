@@ -151,7 +151,7 @@ function render()
 
     collision();
     villain.move(1);
-    if (count === 25) {
+    if (count === 30) {
       thwomp.turn(90);
       thwomp2.turn(90);
       count = 0;
