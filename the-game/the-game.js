@@ -124,6 +124,7 @@ function render()
     projectionMatrix = perspective( fov, HERO_VP * aspect, near, far );
     gl.uniformMatrix4fv( modelViewMatrixLoc, false, flatten(modelViewMatrix) );
     gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten(projectionMatrix) );
+    
     arena.show();
     hero.show();
     if(parseInt(document.getElementById("minutes").innerHTML) > 0 || parseInt(document.getElementById("seconds").innerHTML) > 9){
@@ -140,6 +141,7 @@ function render()
     projectionMatrix = ortho(-500, 500, -500, 500, 0, 200);
     gl.uniformMatrix4fv( modelViewMatrixLoc, false, flatten(modelViewMatrix) );
     gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten(projectionMatrix) );
+    
     arena.show();
     hero.show();
     if(parseInt(document.getElementById("minutes").innerHTML) > 0 || parseInt(document.getElementById("seconds").innerHTML) > 9){
@@ -149,7 +151,6 @@ function render()
     thwomp.show();
     thwomp2.show();
 
-    // collision();
     villain.move(1);
     if (count === 30) {
       thwomp.turn(90);
@@ -161,7 +162,12 @@ function render()
       count++;
     }
     if (collision()<0) {
-      window.alert("you have lost. :(");
+      var con = window.confirm("You have lost. Press 'Ok' to start over and 'Cancel' to quit.");
+      if (con === true) {
+        
+      } else {
+        
+      }
     }
     
 
@@ -225,10 +231,13 @@ function collision(){
 
   var totalDistanceHeroVillain = Math.sqrt(distanceXHeroVillain*distanceXHeroVillain
     + distanceZHeroVillain*distanceZHeroVillain);
+    
   var totalDistanceHeroSeeking = Math.sqrt(distanceXHeroSeek*distanceXHeroSeek
     + distanceZHeroSeek*distanceZHeroSeek);
+    
   var totalDistanceHeroThwomp = Math.sqrt(distanceXHeroThwomp*distanceXHeroThwomp
     + distanceZHeroThwomp*distanceZHeroThwomp);
+    
     var totalDistanceHeroThwomp2 = Math.sqrt(distanceXHeroThwomp2*distanceXHeroThwomp2
     + distanceZHeroThwomp2*distanceZHeroThwomp2);
 
@@ -270,7 +279,12 @@ window.onkeydown = function(event) {
             hero.move(-2.0, 0);
             if(collision()<0){
               hero.move(2.0,0);
-              window.alert("you have lost. :(");
+              var con = window.confirm("You have lost. Press 'Ok' to start over and 'Cancel' to quit.");
+              if (con === true) {
+                
+              } else {
+                
+              }
             } else if(collision()===1) {
                 window.alert("you have won!");
             } else if(collision()==="wall") {
@@ -282,7 +296,12 @@ window.onkeydown = function(event) {
             hero.move(2.0, 0);
             if(collision()<0) {
               hero.move(-2.0,0);
-              window.alert("you have lost. :(");
+              var con = window.confirm("You have lost. Press 'Ok' to start over and 'Cancel' to quit.");
+              if (con === true) {
+                
+              } else {
+                
+              }
             } else if(collision()===1) {
                 window.alert("you have won!");
             } else if(collision()==="wall") {
