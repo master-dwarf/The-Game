@@ -55,7 +55,7 @@ window.onload = function init(){
     fit();
     timer();
 
-       // gl = WebGLUtils.setupWebGL( canvas );
+    // gl = WebGLUtils.setupWebGL( canvas );
     gl = WebGLDebugUtils.makeDebugContext( canvas.getContext("webgl") ); // For debugging
     if ( !gl ) {
         alert( "WebGL isn't available" );
@@ -74,8 +74,8 @@ window.onload = function init(){
     program = initShaders( gl, "vertex-shader", "fragment-shader" );
     gl.useProgram( program );
 
-    eyex = ARENASIZE / 2.0;	// Where the hero starts
-    eyez = -ARENASIZE / 2.0;
+    eyex = 3 * ARENASIZE / 4.0;	// Where the hero starts
+    eyez = -ARENASIZE;
     aspect = width / height;
 
     modelViewMatrixLoc = gl.getUniformLocation( program, "modelViewMatrix" );
