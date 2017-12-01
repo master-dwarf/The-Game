@@ -96,13 +96,13 @@ window.onload = function init(){
     thingSeeking = new ThingSeeking(program, ARENASIZE / 4.0, 0.0, -ARENASIZE / 4.0, 0, 10.0);
     thingSeeking.init();
 
-    villain = new Villain(program, 3 * ARENASIZE / 4.0, 0.0, -ARENASIZE / 4.0, 0, 10.0);
+    villain = new Villain(program, 3 * ARENASIZE / 4.0, 0.0, -ARENASIZE / 4.0, 0, 20.0);
     villain.init();
     
-    thwomp = new Thwomp(program, ARENASIZE / 3.0, 0.0, -ARENASIZE / 6.0, 0, 10.0);
+    thwomp = new Thwomp(program, ARENASIZE / 3.0, 0.0, -ARENASIZE / 6.0, 0, 20.0);
     thwomp.init();
     
-    thwomp2 = new Thwomp(program, ARENASIZE / 5.0, 0.0, -ARENASIZE / 3.0, 0, 10.0);
+    thwomp2 = new Thwomp(program, ARENASIZE / 5.0, 0.0, -ARENASIZE / 3.0, 0, 20.0);
     thwomp2.init();
 
     render();
@@ -149,7 +149,7 @@ function render()
     thwomp.show();
     thwomp2.show();
 
-    collision();
+    // collision();
     villain.move(1);
     if (count === 30) {
       thwomp.turn(90);
@@ -160,6 +160,10 @@ function render()
       thwomp2.move(5);
       count++;
     }
+    if (collision()<0) {
+      window.alert("you have lost. :(");
+    }
+    
 
     requestAnimFrame( render );
 }
