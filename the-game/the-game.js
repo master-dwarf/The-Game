@@ -161,12 +161,13 @@ function render()
       thwomp2.move(5);
       count++;
     }
+    // var con;
     if (collision()<0) {
-      var con = window.confirm("You have lost. Press 'Ok' to start over and 'Cancel' to quit.");
-      if (con === true) {
-        
+      // con = window.confirm("You have lost. Press 'Ok' to start over and 'Cancel' to quit.");
+      if (confirm("You have lost. Press 'Ok' to start over and 'Cancel' to quit.")) {
+        location.reload();
       } else {
-        
+        location.href = "./the-end.html";
       }
     }
     
@@ -269,6 +270,7 @@ function collision(){
 // Key listener
 
 window.onkeydown = function(event) {
+    // var con;
     var key = String.fromCharCode(event.keyCode);
     // For letters, the upper-case version of the letter is always
     // returned because the shift-key is regarded as a separate key in
@@ -279,14 +281,19 @@ window.onkeydown = function(event) {
             hero.move(-2.0, 0);
             if(collision()<0){
               hero.move(2.0,0);
-              var con = window.confirm("You have lost. Press 'Ok' to start over and 'Cancel' to quit.");
-              if (con === true) {
-                
+              // con = window.confirm("You have lost. Press 'Ok' to start over and 'Cancel' to quit.");
+              if (confirm("You have lost. Press 'Ok' to start over and 'Cancel' to quit.")) {
+                location.reload();
               } else {
-                
+                location.href = "./the-end.html";
               }
             } else if(collision()===1) {
-                window.alert("you have won!");
+                // con = window.confirm("You have won! Press 'Ok' to start over and 'Cancel' to quit.");
+                if (confirm("You have won! Press 'Ok' to start over and 'Cancel' to quit.")) {
+                  location.reload();
+                } else {
+                  location.href = "./the-end.html";
+                }
             } else if(collision()==="wall") {
                 hero.move(2.0,0);
             }
@@ -296,14 +303,19 @@ window.onkeydown = function(event) {
             hero.move(2.0, 0);
             if(collision()<0) {
               hero.move(-2.0,0);
-              var con = window.confirm("You have lost. Press 'Ok' to start over and 'Cancel' to quit.");
-              if (con === true) {
-                
+              // con = window.confirm("You have lost. Press 'Ok' to start over and 'Cancel' to quit.");
+              if (confirm("You have lost. Press 'Ok' to start over and 'Cancel' to quit.")) {
+                location.reload();
               } else {
-                
+                location.href = "./the-end.html";
               }
             } else if(collision()===1) {
-                window.alert("you have won!");
+                // con = window.confirm("You have won! Press 'Ok' to start over and 'Cancel' to quit.");
+                if (confirm("You have won! Press 'Ok' to start over and 'Cancel' to quit.")) {
+                  location.reload();
+                } else {
+                  location.href = "./the-end.html";
+                }
             } else if(collision()==="wall") {
                 hero.turn(180);
             }
