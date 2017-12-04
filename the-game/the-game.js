@@ -316,9 +316,15 @@ function whatKey() {
   }
   if (keys[65]) { // key: A or Turn left
     hero.turn(-1.5);
+    if(collision()===1) {
+      keys[65] = false;
+    }
   }
   if (keys[68]) { // key: D or Turn right
     hero.turn(1.5);
+    if(collision()===1) {
+      keys[68] = false;
+    }
   }
 }
 
