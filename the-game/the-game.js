@@ -98,10 +98,10 @@ window.onload = function init(){
 
     villain = new Villain(program, 3 * ARENASIZE / 4.0, 0.0, -ARENASIZE / 4.0, 0, 20.0);
     villain.init();
-    
+
     thwomp = new Thwomp(program, ARENASIZE / 3.0, 0.0, -ARENASIZE / 6.0, 0, 20.0);
     thwomp.init();
-    
+
     thwomp2 = new Thwomp(program, ARENASIZE / 5.0, 0.0, -ARENASIZE / 3.0, 0, 20.0);
     thwomp2.init();
 
@@ -110,6 +110,7 @@ window.onload = function init(){
 
 function render()
 {
+    whatKey();
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     // Hero's eye viewport
@@ -124,7 +125,7 @@ function render()
     projectionMatrix = perspective( fov, HERO_VP * aspect, near, far );
     gl.uniformMatrix4fv( modelViewMatrixLoc, false, flatten(modelViewMatrix) );
     gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten(projectionMatrix) );
-    
+
     arena.show();
     hero.show();
     if(parseInt(document.getElementById("minutes").innerHTML) > 0 || parseInt(document.getElementById("seconds").innerHTML) > 9){
@@ -136,12 +137,12 @@ function render()
 
     // Overhead viewport
     var horiz_offset = width * (1.0 - HERO_VP) / 20.0;
-    gl.viewport(vp1_left + .75 * width, vp1_bottom + height * .75, width - .75 * width, height - height * .75);
+    gl.viewport(vp1_left + .75 * width, vp1_bottom + .75 * height, width * .248, height * .248);
     modelViewMatrix = lookAt(vec3(500.0, 100.0, -500.0), vec3(500.0, 0.0, -500.0), vec3(0.0, 0.0, -1.0));
     projectionMatrix = ortho(-500, 500, -500, 500, 0, 200);
     gl.uniformMatrix4fv( modelViewMatrixLoc, false, flatten(modelViewMatrix) );
     gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten(projectionMatrix) );
-    
+
     arena.show();
     hero.show();
     if(parseInt(document.getElementById("minutes").innerHTML) > 0 || parseInt(document.getElementById("seconds").innerHTML) > 9){
@@ -170,7 +171,7 @@ function render()
         location.href = "./the-end.html";
       }
     }
-    
+
 
     requestAnimFrame( render );
 }
@@ -223,26 +224,26 @@ function collision(){
   var distanceXHeroVillain = hero.x - villain.x;
   var distanceZHeroVillain = hero.z - villain.z;
   var distanceXHeroThwomp = hero.x - thwomp.x;
-  var distanceZHeroThwomp = hero.z - thwomp.z; 
+  var distanceZHeroThwomp = hero.z - thwomp.z;
   var distanceXHeroThwomp2 = hero.x - thwomp2.x;
-  var distanceZHeroThwomp2 = hero.z - thwomp2.z; 
+  var distanceZHeroThwomp2 = hero.z - thwomp2.z;
 
   var distanceXHeroSeek = hero.x - thingSeeking.x;
   var distanceZHeroSeek = hero.z - thingSeeking.z;
 
   var totalDistanceHeroVillain = Math.sqrt(distanceXHeroVillain*distanceXHeroVillain
     + distanceZHeroVillain*distanceZHeroVillain);
-    
+
   var totalDistanceHeroSeeking = Math.sqrt(distanceXHeroSeek*distanceXHeroSeek
     + distanceZHeroSeek*distanceZHeroSeek);
-    
+
   var totalDistanceHeroThwomp = Math.sqrt(distanceXHeroThwomp*distanceXHeroThwomp
     + distanceZHeroThwomp*distanceZHeroThwomp);
-    
+
     var totalDistanceHeroThwomp2 = Math.sqrt(distanceXHeroThwomp2*distanceXHeroThwomp2
     + distanceZHeroThwomp2*distanceZHeroThwomp2);
 
-  if(totalDistanceHeroVillain <= hero.bounding_cir_rad + villain.bounding_cir_rad 
+  if(totalDistanceHeroVillain <= hero.bounding_cir_rad + villain.bounding_cir_rad
     || totalDistanceHeroThwomp <= hero.bounding_cir_rad + thwomp.bounding_cir_rad
     || totalDistanceHeroThwomp2 <= hero.bounding_cir_rad + thwomp2.bounding_cir_rad){
     //console.log("you are touching the villain");//tells if touching each other.
@@ -269,64 +270,105 @@ function collision(){
 
 // Key listener
 
-window.onkeydown = function(event) {
-    // var con;
-    var key = String.fromCharCode(event.keyCode);
-    // For letters, the upper-case version of the letter is always
-    // returned because the shift-key is regarded as a separate key in
-    // itself.  Hence upper- and lower-case can't be distinguished.
-    switch (key) {
-        case 'S':
-            // Move backward
-            hero.move(-2.0, 0);
-            if(collision()<0){
-              hero.move(2.0,0);
-              // con = window.confirm("You have lost. Press 'Ok' to start over and 'Cancel' to quit.");
-              if (confirm("You have lost. Press 'Ok' to start over and 'Cancel' to quit.")) {
-                location.reload();
-              } else {
-                location.href = "./the-end.html";
-              }
-            } else if(collision()===1) {
-                // con = window.confirm("You have won! Press 'Ok' to start over and 'Cancel' to quit.");
-                if (confirm("You have won! Press 'Ok' to start over and 'Cancel' to quit.")) {
-                  location.reload();
-                } else {
-                  location.href = "./the-end.html";
-                }
-            } else if(collision()==="wall") {
-                hero.move(2.0,0);
-            }
-            break;
-        case 'W':
-            // Move forward
-            hero.move(2.0, 0);
-            if(collision()<0) {
-              hero.move(-2.0,0);
-              // con = window.confirm("You have lost. Press 'Ok' to start over and 'Cancel' to quit.");
-              if (confirm("You have lost. Press 'Ok' to start over and 'Cancel' to quit.")) {
-                location.reload();
-              } else {
-                location.href = "./the-end.html";
-              }
-            } else if(collision()===1) {
-                // con = window.confirm("You have won! Press 'Ok' to start over and 'Cancel' to quit.");
-                if (confirm("You have won! Press 'Ok' to start over and 'Cancel' to quit.")) {
-                  location.reload();
-                } else {
-                  location.href = "./the-end.html";
-                }
-            } else if(collision()==="wall") {
-                hero.turn(180);
-            }
-            break;
-        case 'A':
-            // Turn left
-            hero.turn(-1.5);
-            break;
-        case 'D':
-            // Turn right
-            hero.turn(1.5);
-            break;
+var keys = [];
+
+window.addEventListener("keydown", function (e) {
+  keys[e.keyCode] = true;
+});
+window.addEventListener("keyup", function (e) {
+  keys[e.keyCode] = false;
+});
+
+function whatKey() {
+  if (keys[83]) { // key: S or Move backward
+    hero.move(-2.0, 0);
+    if(collision()<0){
+      hero.move(2.0,0);
+      var con = window.confirm("You have lost. Press 'Ok' to start over and 'Cancel' to quit.");
+      if (con === true) {
+
+      } else {
+
+      }
+    } else if(collision()===1) {
+      window.alert("you have won!");
+      keys[83] = false;
+    } else if(collision()==="wall") {
+      hero.move(2.0,0);
     }
-};
+  }
+  if (keys[87]) { // key: W or Move forward
+    hero.move(2.0, 0);
+    if(collision()<0) {
+      hero.move(-2.0,0);
+      var con = window.confirm("You have lost. Press 'Ok' to start over and 'Cancel' to quit.");
+      if (con === true) {
+
+      } else {
+
+      }
+    } else if(collision()===1) {
+      window.alert("you have won!");
+      keys[87] = false;
+    } else if(collision()==="wall") {
+      hero.turn(180);
+    }
+  }
+  if (keys[65]) { // key: A or Turn left
+    hero.turn(-1.5);
+  }
+  if (keys[68]) { // key: D or Turn right
+    hero.turn(1.5);
+  }
+}
+
+// window.onkeydown = function(event) {
+//     var key = String.fromCharCode(event.keyCode);
+//     // For letters, the upper-case version of the letter is always
+//     // returned because the shift-key is regarded as a separate key in
+//     // itself.  Hence upper- and lower-case can't be distinguished.
+//     switch (key) {
+//         case 'S':
+//             // Move backward
+//             hero.move(-2.0, 0);
+//             if(collision()<0){
+//               hero.move(2.0,0);
+//               var con = window.confirm("You have lost. Press 'Ok' to start over and 'Cancel' to quit.");
+//               if (con === true) {
+//
+//               } else {
+//
+//               }
+//             } else if(collision()===1) {
+//                 window.alert("you have won!");
+//             } else if(collision()==="wall") {
+//                 hero.move(2.0,0);
+//             }
+//             break;
+//         case 'W':
+//             // Move forward
+//             hero.move(2.0, 0);
+//             if(collision()<0) {
+//               hero.move(-2.0,0);
+//               var con = window.confirm("You have lost. Press 'Ok' to start over and 'Cancel' to quit.");
+//               if (con === true) {
+//
+//               } else {
+//
+//               }
+//             } else if(collision()===1) {
+//                 window.alert("you have won!");
+//             } else if(collision()==="wall") {
+//                 hero.turn(180);
+//             }
+//             break;
+//         case 'A':
+//             // Turn left
+//             hero.turn(-1.5);
+//             break;
+//         case 'D':
+//             // Turn right
+//             hero.turn(1.5);
+//             break;
+//     }
+// };
