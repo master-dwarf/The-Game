@@ -213,10 +213,6 @@ function fit(){
 function collision(){
   // collision will happen between two objects if the distances
   // between the between the two is less then the total bounding_cir_rad of both.
-  //
-  //TODO:look into the future move and calcualte the distances to see if possible or win/loss
-  // solution: perform move then check. if -1, touching villain then move back.
-  //           if 1, touching thingSeeking notify win.
   var distanceXHeroVillain = hero.x - villain.x;
   var distanceZHeroVillain = hero.z - villain.z;
   var distanceXHeroThwomp = hero.x - thwomp.x;
@@ -242,11 +238,9 @@ function collision(){
   if(totalDistanceHeroVillain <= hero.bounding_cir_rad + villain.bounding_cir_rad
     || totalDistanceHeroThwomp <= hero.bounding_cir_rad + thwomp.bounding_cir_rad
     || totalDistanceHeroThwomp2 <= hero.bounding_cir_rad + thwomp2.bounding_cir_rad){
-    //console.log("you are touching the villain");//tells if touching each other.
     return -1;
   }
   else if(totalDistanceHeroSeeking <= hero.bounding_cir_rad + thingSeeking.bounding_cir_rad){
-    //console.log("you have reached the objective");
     return 1;
   }
   if(hero.x<0 || hero.x>ARENASIZE){
