@@ -12,6 +12,12 @@ function Villain(program, x, y, z, degrees, bounding_cir_rad)  {
     this.iBuffer = null;
     this.vPosition = null;
     this.vNormal = null;
+    this.dx;
+    this.dz;
+    this.speedX;
+    this.speedZ;
+    this.distance;
+    this.angle;
   
     this.vertices = [
         0.5, 1.0, 0.5, -0.5, 1.0, 0.5, -0.5, 0.0, 0.5,  0.5, 0.0, 0.5, // v0-v1-v2-v3 front
@@ -51,8 +57,7 @@ function Villain(program, x, y, z, degrees, bounding_cir_rad)  {
         1, 1, 0, 1, 0, 0, 1, 0,
         1, 1, 0, 1, 0, 0, 1, 0,
         0, 0, 1, 0, 1, 1, 0, 1
-    ];
-    
+    ];    
 };
 
 Villain.prototype = Object.create(GameObject.prototype);
@@ -176,5 +181,18 @@ Villain.prototype.show = function() {
     gl.disableVertexAttribArray(this.vNormal);
     gl.disableVertexAttribArray(this.vTexCoord);
 };
+
+Villain.prototype.updateAngle = function (hero) {
+    this.dx = hero.x - this.x;
+    this.dz = hero.z - this.z;
+    this.distance = Math.sqrt((this.dx*this.dx) + (this.dz*this.dz));
+    this.degrees = Math.atan2(this.dz,this.dx) * 180 / Math.PI;
+}
+
+Villain.prototype.updateSpeed = function(speed) {
+    this.speedX = speed * (this.dx/this.distance);
+    this.speedZ = speed * (this.dz/this.distance);
+    return (this.speedX + this.speedZ);
+}
 
 //////////////////////////  End Villain's code /////////////////////////////////
