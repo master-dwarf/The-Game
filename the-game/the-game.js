@@ -151,7 +151,7 @@ function render()
     villain.show();
     thwomp.show();
     thwomp2.show();
-    
+
     villain.updateAngle(hero);
     villain.turn(villain.degrees);
     var s = villain.updateSpeed(2);
@@ -168,9 +168,9 @@ function render()
     if (collision()<0) {
       location.href = "./the-end.html";
     }
-
-
-    requestAnimFrame( render );
+    else{
+      requestAnimFrame( render );
+    }
 }
 
 function timer(){
@@ -292,7 +292,7 @@ function whatKey() {
       location.href = "./the-end.html";
     } else if(collision()===1) {
       keys[87] = false;
-      location.href = "./the-win.html";      
+      location.href = "./the-win.html";
     } else if(collision()==="wall") {
       hero.turn(180);
     }
