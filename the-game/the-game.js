@@ -128,7 +128,7 @@ function render()
 
     arena.show();
     hero.show();
-    if(parseInt(document.getElementById("minutes").innerHTML) > 0 || parseInt(document.getElementById("seconds").innerHTML) > 9){
+    if(parseInt(document.getElementById("minutes").innerHTML) > 0 || parseInt(document.getElementById("seconds").innerHTML) > 19){
       thingSeeking.show();
     }
     villain.show();
@@ -145,7 +145,7 @@ function render()
 
     arena.show();
     hero.show();
-    if(parseInt(document.getElementById("minutes").innerHTML) > 0 || parseInt(document.getElementById("seconds").innerHTML) > 9){
+    if(parseInt(document.getElementById("minutes").innerHTML) > 0 || parseInt(document.getElementById("seconds").innerHTML) > 19){
       thingSeeking.show();
     }
     villain.show();
@@ -154,8 +154,9 @@ function render()
 
     villain.updateAngle(hero);
     villain.turn(villain.degrees);
-    var s = villain.updateSpeed(2);
-    villain.move(s);
+    villain.updateSpeed(3);
+    villain.move(villain.speedX + villain.speedZ);
+    
     if (count === 30) {
       thwomp.turn(90);
       thwomp2.turn(90);

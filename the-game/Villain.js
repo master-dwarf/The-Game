@@ -87,7 +87,7 @@ Villain.prototype.init = function() {
     // Texture 0
     var image0 = new Image();
     image0.crossOrigin = "anonymous";
-    image0.src = "bingley128.png";   
+    image0.src = "bowser.png";   
     image0.onload = function() { 
 	var texture0 = gl.createTexture();
         gl.activeTexture( gl.TEXTURE0);
@@ -102,7 +102,7 @@ Villain.prototype.init = function() {
     // Texture 1
     var image1 = new Image();
     image1.crossOrigin = "anonymous";
-    image1.src = "darcy128.png"; 
+    image1.src = "bowser.png"; 
     image1.onload = function() { 
         var texture1 = gl.createTexture();
         gl.activeTexture( gl.TEXTURE1);
@@ -186,13 +186,12 @@ Villain.prototype.updateAngle = function (hero) {
     this.dx = hero.x - this.x;
     this.dz = hero.z - this.z;
     this.distance = Math.sqrt((this.dx*this.dx) + (this.dz*this.dz));
-    this.degrees = Math.atan2(this.dz,this.dx) * 180 / Math.PI;
+    this.degrees = Math.atan2(this.dz,this.dx) * (180 / Math.PI);
 }
 
 Villain.prototype.updateSpeed = function(speed) {
     this.speedX = speed * (this.dx/this.distance);
     this.speedZ = speed * (this.dz/this.distance);
-    return (this.speedX + this.speedZ);
 }
 
 //////////////////////////  End Villain's code /////////////////////////////////
