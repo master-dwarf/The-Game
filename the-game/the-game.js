@@ -153,6 +153,7 @@ function render()
     thwomp2.show();
     
     villain.updateAngle(hero);
+    villain.turn(villain.degrees);
     var s = villain.updateSpeed(2);
     villain.move(s);
     if (count === 30) {
