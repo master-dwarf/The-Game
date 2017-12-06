@@ -166,9 +166,9 @@ function render()
       thwomp2.move(5);
       count++;
     }
-    if (collision()<0) {
+    if (collision()==-1) {
       location.href = "./the-end.html";
-    }
+    } 
     else{
       requestAnimFrame( render );
     }
@@ -221,6 +221,10 @@ function collision(){
   var distanceZHeroThwomp = hero.z - thwomp.z;
   var distanceXHeroThwomp2 = hero.x - thwomp2.x;
   var distanceZHeroThwomp2 = hero.z - thwomp2.z;
+  var distanceXVillainThwomp = villain.x - thwomp.x;
+  var distanceZVillainThwomp = villain.z - thwomp.z;
+  var distanceXVillainThwomp2 = villain.x - thwomp2.x;
+  var distanceZVillainThwomp2 = villain.z - thwomp2.z;
 
   var distanceXHeroSeek = hero.x - thingSeeking.x;
   var distanceZHeroSeek = hero.z - thingSeeking.z;
@@ -234,8 +238,14 @@ function collision(){
   var totalDistanceHeroThwomp = Math.sqrt(distanceXHeroThwomp*distanceXHeroThwomp
     + distanceZHeroThwomp*distanceZHeroThwomp);
 
-    var totalDistanceHeroThwomp2 = Math.sqrt(distanceXHeroThwomp2*distanceXHeroThwomp2
+  var totalDistanceHeroThwomp2 = Math.sqrt(distanceXHeroThwomp2*distanceXHeroThwomp2
     + distanceZHeroThwomp2*distanceZHeroThwomp2);
+    
+  var totalDistanceVillainThwomp = Math.sqrt(distanceXVillainThwomp*distanceXVillainThwomp
+    + distanceZVillainThwomp*distanceZVillainThwomp);
+    
+  var totalDistanceVillainThwomp2 = Math.sqrt(distanceXVillainThwomp2*distanceXVillainThwomp2
+    + distanceZVillainThwomp2*distanceZVillainThwomp2);
 
   if(totalDistanceHeroVillain <= hero.bounding_cir_rad + villain.bounding_cir_rad
     || totalDistanceHeroThwomp <= hero.bounding_cir_rad + thwomp.bounding_cir_rad
@@ -257,6 +267,10 @@ function collision(){
   if(villain.z>0 || villain.z < -ARENASIZE){
     villain.turn(180);
   }
+  if(totalDistanceVillainThwomp <= thwomp.bounding_cir_rad + villain.bounding_cir_rad
+    || totalDistanceVillainThwomp2 <= thwomp2.bounding_cir_rad + villain.bounding_cir_rad) {
+      return -2;
+    }
   return 0;
 }
 
