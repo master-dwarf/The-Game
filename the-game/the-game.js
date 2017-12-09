@@ -15,6 +15,10 @@ const near = 1.0;
 const far = 10000.0;
 var aspect, eyex, eyez;
 
+var renderCount = 0;
+var newSeekingPosX;
+var newSeekingPosZ;
+
 var width;      // canvas size
 var height;
 var vp1_left = 0;      // Left viewport -- the hero's view
@@ -128,8 +132,23 @@ function render()
 
     arena.show();
     hero.show();
-    if(parseInt(document.getElementById("minutes").innerHTML) > 0 || parseInt(document.getElementById("seconds").innerHTML) > 19){
+    renderCount++;
+    if(parseInt(document.getElementById("minutes").innerHTML) > 0 || parseInt(document.getElementById("seconds").innerHTML) > 2){
       thingSeeking.show();
+    }
+    if(parseInt(document.getElementById("seconds").innerHTML) % 10 == 0){
+      if(renderCount % 10 == 0){
+        newSeekingPosX = Math.random() * ARENASIZE;
+        newSeekingPosZ = Math.random() * -ARENASIZE;
+        while(newSeekingPosX < 0 || newSeekingPosX > ARENASIZE){
+          newSeekingPosX = Math.random() * ARENASIZE;
+        }
+        while(newSeekingPosZ > 0 || newSeekingPosZ < -ARENASIZE){
+          newSeekingPosZ = -(Math.random() * ARENASIZE);
+        }
+        thingSeeking.x = newSeekingPosX;
+        thingSeeking.z = newSeekingPosZ;
+      }
     }
     villain.show();
     thwomp.show();
@@ -148,6 +167,12 @@ function render()
     if(parseInt(document.getElementById("minutes").innerHTML) > 0 || parseInt(document.getElementById("seconds").innerHTML) > 19){
       thingSeeking.show();
     }
+    if(parseInt(document.getElementById("seconds").innerHTML) % 10 == 0){
+      if(renderCount % 10 == 0){
+        thingSeeking.x = newSeekingPosX;
+        thingSeeking.z = newSeekingPosZ;
+      }
+    }
     villain.show();
     thwomp.show();
     thwomp2.show();
@@ -156,7 +181,7 @@ function render()
     villain.turn(villain.degrees);
     villain.updateSpeed(3);
     villain.move(villain.speedX + villain.speedZ);
-    
+
     if (count === 30) {
       thwomp.turn(90);
       thwomp2.turn(90);
@@ -168,7 +193,7 @@ function render()
     }
     if (collision()==-1) {
       location.href = "./the-end.html";
-    } 
+    }
     else{
       requestAnimFrame( render );
     }
@@ -240,10 +265,10 @@ function collision(){
 
   var totalDistanceHeroThwomp2 = Math.sqrt(distanceXHeroThwomp2*distanceXHeroThwomp2
     + distanceZHeroThwomp2*distanceZHeroThwomp2);
-    
+
   var totalDistanceVillainThwomp = Math.sqrt(distanceXVillainThwomp*distanceXVillainThwomp
     + distanceZVillainThwomp*distanceZVillainThwomp);
-    
+
   var totalDistanceVillainThwomp2 = Math.sqrt(distanceXVillainThwomp2*distanceXVillainThwomp2
     + distanceZVillainThwomp2*distanceZVillainThwomp2);
 
