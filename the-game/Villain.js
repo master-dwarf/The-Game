@@ -18,7 +18,7 @@ function Villain(program, x, y, z, degrees, bounding_cir_rad)  {
     this.speedZ;
     this.distance;
     this.angle;
-  
+
     this.vertices = [
         0.5, 1.0, 0.5, -0.5, 1.0, 0.5, -0.5, 0.0, 0.5,  0.5, 0.0, 0.5, // v0-v1-v2-v3 front
         0.5, 1.0, 0.5,  0.5, 0.0, 0.5,  0.5, 0.0,-0.5,  0.5, 1.0,-0.5, // v0-v3-v4-v5 right
@@ -47,7 +47,7 @@ function Villain(program, x, y, z, degrees, bounding_cir_rad)  {
         16, 17, 18, 16, 18, 19,    // down
         20, 21, 22, 20, 22, 23     // back
     ];
-    
+
     // Tex coords
 
     this.texCoord = [
@@ -57,14 +57,14 @@ function Villain(program, x, y, z, degrees, bounding_cir_rad)  {
         1, 1, 0, 1, 0, 0, 1, 0,
         1, 1, 0, 1, 0, 0, 1, 0,
         0, 0, 1, 0, 1, 1, 0, 1
-    ];    
+    ];
 };
 
 Villain.prototype = Object.create(GameObject.prototype);
 
 
 Villain.prototype.init = function() {
-     
+
     this.vBuffer = gl.createBuffer();
     gl.bindBuffer( gl.ARRAY_BUFFER, this.vBuffer );
     gl.bufferData( gl.ARRAY_BUFFER, new Float32Array(this.vertices), gl.STATIC_DRAW );
@@ -83,12 +83,12 @@ Villain.prototype.init = function() {
 
     // WebGL guarantees at least eight texture units -- see
     // http://webglstats.com/webgl/parameter/MAX_TEXTURE_IMAGE_UNITS
-    
+
     // Texture 0
     var image0 = new Image();
     image0.crossOrigin = "anonymous";
-    image0.src = "bowser.png";   
-    image0.onload = function() { 
+    image0.src = "bowser.png";
+    image0.onload = function() {
 	var texture0 = gl.createTexture();
         gl.activeTexture( gl.TEXTURE0);
         gl.bindTexture( gl.TEXTURE_2D, texture0 );
@@ -98,12 +98,12 @@ Villain.prototype.init = function() {
         gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST_MIPMAP_LINEAR );
         gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST );
     };
-    
+
     // Texture 1
     var image1 = new Image();
     image1.crossOrigin = "anonymous";
-    image1.src = "bowser.png"; 
-    image1.onload = function() { 
+    image1.src = "bowser.png";
+    image1.onload = function() {
         var texture1 = gl.createTexture();
         gl.activeTexture( gl.TEXTURE1);
         gl.bindTexture( gl.TEXTURE_2D, texture1 );
@@ -113,8 +113,8 @@ Villain.prototype.init = function() {
         gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST_MIPMAP_LINEAR );
         gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST );
     };
-    
-    
+
+
 };
 
 Villain.prototype.show = function() {
@@ -131,7 +131,7 @@ Villain.prototype.show = function() {
     }
 
     gl.vertexAttribPointer(this.vPosition, 3, gl.FLOAT, false, 0, 0);
-    gl.enableVertexAttribArray( this.vPosition );    
+    gl.enableVertexAttribArray( this.vPosition );
 
     gl.bindBuffer( gl.ARRAY_BUFFER, this.nBuffer );
     this.vNormal = gl.getAttribLocation( program, "vNormal" );
@@ -155,25 +155,25 @@ Villain.prototype.show = function() {
 
     gl.bindBuffer( gl.ELEMENT_ARRAY_BUFFER, this.iBuffer );
 
-    gl.enable(gl.CULL_FACE);	
+    gl.enable(gl.CULL_FACE);
     gl.cullFace(gl.BACK);
     gl.uniform1i(gl.getUniformLocation(program, "texture_flag"), 1);
     gl.uniformMatrix4fv( modelViewMatrixLoc, false, flatten(modelViewMatrix) );
 
-    gl.uniform1i(gl.getUniformLocation(program, "texture"), 0); 
-    gl.drawElements( gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 0 );  
-    gl.uniform1i(gl.getUniformLocation(program, "texture"), 1); 
-    gl.drawElements( gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 12 ); 
+    gl.uniform1i(gl.getUniformLocation(program, "texture"), 0);
+    gl.drawElements( gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 0 );
+    gl.uniform1i(gl.getUniformLocation(program, "texture"), 1);
+    gl.drawElements( gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 12 );
     gl.uniform1i(gl.getUniformLocation(program, "texture"), 1);   // See from top
-    gl.drawElements( gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 24 ); 
+    gl.drawElements( gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 24 );
     gl.uniform1i(gl.getUniformLocation(program, "texture"), 1);   // See on right
-    gl.drawElements( gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 36 ); 
-    gl.uniform1i(gl.getUniformLocation(program, "texture"), 0); 
+    gl.drawElements( gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 36 );
+    gl.uniform1i(gl.getUniformLocation(program, "texture"), 0);
     gl.drawElements( gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 48 );
     gl.uniform1i(gl.getUniformLocation(program, "texture"), 0);   // See on left
     gl.drawElements( gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 60 );
     gl.disable(gl.CULL_FACE);
-    
+
     modelViewMatrix = g_matrixStack.pop();
     gl.uniform1i(gl.getUniformLocation(program, "texture_flag"), 0);
     // Disable current vertex attribute arrays so those in a different object can be activated
@@ -190,8 +190,8 @@ Villain.prototype.updateAngle = function (hero) {
 }
 
 Villain.prototype.updateSpeed = function(speed) {
-    this.speedX = speed * (this.dx/this.distance);
-    this.speedZ = speed * (this.dz/this.distance);
+    this.speedX = speed * Math.abs(this.dx/this.distance);
+    this.speedZ = speed * Math.abs(this.dz/this.distance);
 }
 
 //////////////////////////  End Villain's code /////////////////////////////////
