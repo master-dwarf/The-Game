@@ -98,8 +98,9 @@
 <script type="text/javascript" src="Thwomp.js"></script>
 <script type="text/javascript" src="the-game.js"></script>
 
-<body onresize="fit()" style="margin: 0px">
-  <p style="font-size:20pt;position:absolute;left:48%;"><span id="minutes">00</span>:<span id="seconds">00</span></p>
+<body onresize="fit()" style="margin: 0px;overflow: hidden;">
+  <span id="points"style="font-size:20pt;position:absolute;left:10%;">0</span>
+  <span style="font-size:20pt;position:absolute;left:48%;"><span id="minutes">00</span>:<span id="seconds">00</span></span>
   <canvas id="gl-canvas">
     Oops ... your browser doesn't support the HTML5 canvas element
   </canvas>
