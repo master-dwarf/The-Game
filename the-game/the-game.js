@@ -127,10 +127,10 @@ window.onload = function init(){
     villain = new Villain(program, 3 * ARENASIZE / 4.0, 0.0, -ARENASIZE / 4.0, 0, 20.0);
     villain.init();
 
-    thwomp = new Thwomp(program, ARENASIZE / 3.0, 0.0, -ARENASIZE / 6.0, 0, 20.0);
+    thwomp = new Thwomp(program, ARENASIZE - 100.0, 0.0, -ARENASIZE + 150.0, 0, 20.0);
     thwomp.init();
 
-    thwomp2 = new Thwomp(program, ARENASIZE / 5.0, 0.0, -ARENASIZE / 3.0, 0, 20.0);
+    thwomp2 = new Thwomp(program, 0.0 + 100.0, 0.0, 0.0 - 150.0, 0, 20.0);
     thwomp2.init();
 
     render();
@@ -248,13 +248,13 @@ function render(){
         villain.z = -(Math.random() * ARENASIZE);
     }
 
-    if (count === 120) {
-      thwomp.turn(90);
-      thwomp2.turn(90);
+    if (count === 160) {
+      thwomp.turn(-90);
+      thwomp2.turn(-90);
       count = 0;
     } else {
-        thwomp.move(-1);
-        thwomp2.move(1);
+        thwomp.move(-5);
+        thwomp2.move(5);
       count++;
     }
     if (collision()==-1) {
