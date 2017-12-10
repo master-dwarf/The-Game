@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <script>
 	function again(){location.href = "./the-game.html";}
+	function home(){location.href = "./MainMenu.html";}
 </script>
+<script type="text/javascript" src="the-game.js"></script>
 <html>
 	<body>
 		<h1 style="text-align: center;">Thanks for playing!</h1>
 		<div style="text-align: center;">
-			<!-- put some message here depending on way they die/win -->
 			<p>Ouch! Your oppentent has defeated you. Better luck next time!</p>
+			<div>You Scored <span id="totalPoints"></span> points!</div>
 			<button id="startagain" onclick="again()">Play again</button>
-		</div>		
+			<button id="startagain" onclick="home()">Main Menu</button>
+		</div>
 	</body>
 </html>
