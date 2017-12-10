@@ -21,9 +21,9 @@ var newSeekingPosZ;
 var newSeekingPosX2;
 var newSeekingPosZ2;
 
-var moveSpeed = 2.0;
-var turnSpeed = 5.0
-var villainSpeed = 2.0;
+var moveSpeed = 1.0;
+var turnSpeed = 1.5;
+var villainSpeed = 0.5;
 
 var point;
 var appendPoints;
@@ -64,14 +64,13 @@ var count = 0;
 var g_matrixStack = []; // Stack for storing a matrix
 
 function savesnum(val) {
-    document.cookie = 'snum:'+ point + '/;'; //Set the cookie
+    document.cookie = 'snum:'+ point;
 }
 
 function getsnum() {
-    var start = document.cookie.indexOf('snum:'); //Get the location of the cookie value
-    var stop = document.cookie.length; //Get the end of the cookie value
-
-    return document.cookie.substring(start+5, stop); //Return the value of the cookie (+5 because 'snum:' is 5 chars long)
+    var start = document.cookie.indexOf('snum:');
+    var stop = document.cookie.length;
+    return document.cookie.substring(start+5, stop);
 }
 
 window.onload = function init(){
@@ -82,8 +81,8 @@ window.onload = function init(){
     fit();
     timer();
 
-    // gl = WebGLUtils.setupWebGL( canvas );
-    gl = WebGLDebugUtils.makeDebugContext( canvas.getContext("webgl") ); // For debugging
+    gl = WebGLUtils.setupWebGL( canvas );
+    // gl = WebGLDebugUtils.makeDebugContext( canvas.getContext("webgl") ); // For debugging
     if ( !gl ) {
         alert( "WebGL isn't available" );
     }
@@ -112,7 +111,6 @@ window.onload = function init(){
                      // shader.  If your game object uses it, be sure
                      // to switch it back to 0 for consistency with
                      // those objects that use the default.
-
 
     arena = new Arena(program);
     arena.init();
@@ -143,8 +141,7 @@ window.onload = function init(){
   }
 };
 
-function render()
-{
+function render(){
     whatKey();
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
@@ -169,21 +166,21 @@ function render()
       thingSeeking.z = ARENASIZE + 2;
       point += 10;
       appendPoints.innerHTML = point;
-      villainSpeed -= 0.5;
+      villainSpeed -= 0.05;
     }
     else if(collision()==2){
       thingSeeking2.x = ARENASIZE + 2;
       thingSeeking2.z = ARENASIZE + 2;
       point += 10;
       appendPoints.innerHTML = point;
-      villainSpeed -= 0.5;
+      villainSpeed -= 0.05;
     }
     else if(parseInt(document.getElementById("minutes").innerHTML) > 0 || parseInt(document.getElementById("seconds").innerHTML) > 2){
       thingSeeking.show();
       thingSeeking2.show();
     }
     if(parseInt(document.getElementById("seconds").innerHTML) % 10 == 0){
-      if(renderCount % 10 == 0){
+      if(renderCount % 60 == 0){
         newSeekingPosX = Math.random() * ARENASIZE;
         newSeekingPosZ = Math.random() * -ARENASIZE;
         newSeekingPosX2 = Math.random() * ARENASIZE;
@@ -230,7 +227,7 @@ function render()
       thingSeeking2.show();
     }
     if(parseInt(document.getElementById("seconds").innerHTML) % 10 == 0){
-      if(renderCount % 10 == 0){
+      if(renderCount % 60 == 0){
         thingSeeking.x = newSeekingPosX;
         thingSeeking.z = newSeekingPosZ;
         thingSeeking2.x = newSeekingPosX2;
@@ -251,13 +248,13 @@ function render()
         villain.z = -(Math.random() * ARENASIZE);
     }
 
-    if (count === 30) {
+    if (count === 120) {
       thwomp.turn(90);
       thwomp2.turn(90);
       count = 0;
     } else {
-      thwomp.move(-5);
-      thwomp2.move(5);
+        thwomp.move(-1);
+        thwomp2.move(1);
       count++;
     }
     if (collision()==-1) {
@@ -280,10 +277,13 @@ function timer(){
 
   function startTimer () {
     seconds++;
-    villainSpeed += .05;
-    moveSpeed += .05;
+    if(villainSpeed <= 5){
+      villainSpeed += .001;
+    }
+    if(moveSpeed <= 5){
+      moveSpeed += .01;
+    }
     point += 2
-
     appendPoints.innerHTML = point;
 
     if (seconds < 10) {
@@ -424,16 +424,8 @@ function whatKey() {
   }
   if (keys[65] || keys[37]) { // key: A or Turn left
     hero.turn(-turnSpeed);
-    if(collision()===1) {
-      keys[65] = false;
-      keys[37] = false;
-    }
   }
   if (keys[68] || keys[39]) { // key: D or Turn right
     hero.turn(turnSpeed);
-    if(collision()===1) {
-      keys[68] = false;
-      keys[39] = false;
-    }
   }
 }
