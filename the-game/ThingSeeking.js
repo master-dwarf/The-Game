@@ -11,7 +11,7 @@ function ThingSeeking(program, x, y, z, degrees, bounding_cir_rad)  {
     this.thingSeekingIndices = swordMesh.connectivity[0].indices;
 
     this.rotate = 0;
-    
+
     this.vBuffer = null;
     this.nBuffer = null;
     this.iBuffer = null;
@@ -33,7 +33,6 @@ ThingSeeking.prototype.init = function() {
     this.iBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.iBuffer);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.thingSeekingIndices), gl.STATIC_DRAW);
-    
 };
 
 ThingSeeking.prototype.show = function() {
@@ -52,7 +51,7 @@ ThingSeeking.prototype.show = function() {
     }
 
     gl.vertexAttribPointer(this.vPosition, 3, gl.FLOAT, false, 0, 0);
-    gl.enableVertexAttribArray( this.vPosition );    
+    gl.enableVertexAttribArray( this.vPosition );
 
     gl.bindBuffer( gl.ARRAY_BUFFER, this.nBuffer );
     this.vNormal = gl.getAttribLocation( program, "vNormal" );
@@ -69,16 +68,16 @@ ThingSeeking.prototype.show = function() {
     var ambientProduct = mult(la0, gray);
     var diffuseProduct = mult(ld0, gray);
     var specularProduct = mult(ls0, gray);
-    
+
     gl.uniform4fv(gl.getUniformLocation(program, "ambientProduct"), flatten(ambientProduct));
     gl.uniform4fv(gl.getUniformLocation(program, "diffuseProduct"), flatten(diffuseProduct) );
-    gl.uniform4fv(gl.getUniformLocation(program, "specularProduct"), flatten(specularProduct) );	
+    gl.uniform4fv(gl.getUniformLocation(program, "specularProduct"), flatten(specularProduct) );
     gl.uniform4fv(gl.getUniformLocation(program, "lightPosition"),  flatten(lp0) );
     gl.uniform1f(gl.getUniformLocation(program, "shininess"), me);
 
     gl.uniformMatrix4fv( modelViewMatrixLoc, false, flatten(modelViewMatrix) );
-    gl.drawElements( gl.TRIANGLES, this.thingSeekingIndices.length, gl.UNSIGNED_SHORT, 0 ); 
-    
+    gl.drawElements( gl.TRIANGLES, this.thingSeekingIndices.length, gl.UNSIGNED_SHORT, 0 );
+
     modelViewMatrix = g_matrixStack.pop();
     // IMPORTANT: Disable current vertex attribute arrays so those in
     // a different object can be activated

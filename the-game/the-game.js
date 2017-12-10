@@ -18,6 +18,12 @@ var aspect, eyex, eyez;
 var renderCount = 0;
 var newSeekingPosX;
 var newSeekingPosZ;
+var newSeekingPosX2;
+var newSeekingPosZ2;
+
+var moveSpeed = 1.0;
+var turnSpeed = 5.0
+var villainSpeed = 1.0;
 
 var width;      // canvas size
 var height;
@@ -100,6 +106,9 @@ window.onload = function init(){
     thingSeeking = new ThingSeeking(program, ARENASIZE / 4.0, 0.0, -ARENASIZE / 4.0, 0, 10.0);
     thingSeeking.init();
 
+    thingSeeking2 = new ThingSeeking(program, ARENASIZE / 4.0, 0.0, -ARENASIZE / 4.0, 0, 10.0);
+    thingSeeking2.init();
+
     villain = new Villain(program, 3 * ARENASIZE / 4.0, 0.0, -ARENASIZE / 4.0, 0, 20.0);
     villain.init();
 
@@ -135,19 +144,30 @@ function render()
     renderCount++;
     if(parseInt(document.getElementById("minutes").innerHTML) > 0 || parseInt(document.getElementById("seconds").innerHTML) > 2){
       thingSeeking.show();
+      thingSeeking2.show();
     }
     if(parseInt(document.getElementById("seconds").innerHTML) % 10 == 0){
       if(renderCount % 10 == 0){
         newSeekingPosX = Math.random() * ARENASIZE;
         newSeekingPosZ = Math.random() * -ARENASIZE;
+        newSeekingPosX2 = Math.random() * ARENASIZE;
+        newSeekingPosZ2 = Math.random() * -ARENASIZE;
         while(newSeekingPosX < 0 || newSeekingPosX > ARENASIZE){
           newSeekingPosX = Math.random() * ARENASIZE;
         }
         while(newSeekingPosZ > 0 || newSeekingPosZ < -ARENASIZE){
           newSeekingPosZ = -(Math.random() * ARENASIZE);
         }
+        while(newSeekingPosX2 < 0 || newSeekingPosX2 > ARENASIZE){
+          newSeekingPosX2 = Math.random() * ARENASIZE;
+        }
+        while(newSeekingPosZ2 > 0 || newSeekingPosZ2 < -ARENASIZE){
+          newSeekingPosZ2 = -(Math.random() * ARENASIZE);
+        }
         thingSeeking.x = newSeekingPosX;
         thingSeeking.z = newSeekingPosZ;
+        thingSeeking2.x = newSeekingPosX2;
+        thingSeeking2.z = newSeekingPosZ2;
       }
     }
     villain.show();
@@ -166,11 +186,14 @@ function render()
     hero.show();
     if(parseInt(document.getElementById("minutes").innerHTML) > 0 || parseInt(document.getElementById("seconds").innerHTML) > 19){
       thingSeeking.show();
+      thingSeeking2.show();
     }
     if(parseInt(document.getElementById("seconds").innerHTML) % 10 == 0){
       if(renderCount % 10 == 0){
         thingSeeking.x = newSeekingPosX;
         thingSeeking.z = newSeekingPosZ;
+        thingSeeking2.x = newSeekingPosX2;
+        thingSeeking2.z = newSeekingPosZ2;
       }
     }
     villain.show();
@@ -179,8 +202,15 @@ function render()
 
     villain.updateAngle(hero);
     villain.turn(villain.degrees);
-    villain.updateSpeed(3);
+    villain.updateSpeed(villainSpeed);
     villain.move(villain.speedX + villain.speedZ);
+
+    // if(collision()==-2){
+    //   if(renderCount % 10 == 0){
+    //     villain.x = newSeekingPosX;
+    //     villain.z = newSeekingPosZ;
+    //   }
+    // }
 
     if (count === 30) {
       thwomp.turn(90);
@@ -210,6 +240,8 @@ function timer(){
 
   function startTimer () {
     seconds++;
+    villainSpeed += .05;
+    moveSpeed += .05;
 
     if (seconds < 10) {
       appendSeconds.innerHTML = "0" + seconds;
@@ -253,12 +285,17 @@ function collision(){
 
   var distanceXHeroSeek = hero.x - thingSeeking.x;
   var distanceZHeroSeek = hero.z - thingSeeking.z;
+  var distanceXHeroSeek2 = hero.x - thingSeeking2.x;
+  var distanceZHeroSeek2 = hero.z - thingSeeking2.z;
 
   var totalDistanceHeroVillain = Math.sqrt(distanceXHeroVillain*distanceXHeroVillain
     + distanceZHeroVillain*distanceZHeroVillain);
 
   var totalDistanceHeroSeeking = Math.sqrt(distanceXHeroSeek*distanceXHeroSeek
     + distanceZHeroSeek*distanceZHeroSeek);
+
+  var totalDistanceHeroSeeking2 = Math.sqrt(distanceXHeroSeek2*distanceXHeroSeek2
+      + distanceZHeroSeek2*distanceZHeroSeek2);
 
   var totalDistanceHeroThwomp = Math.sqrt(distanceXHeroThwomp*distanceXHeroThwomp
     + distanceZHeroThwomp*distanceZHeroThwomp);
@@ -277,7 +314,8 @@ function collision(){
     || totalDistanceHeroThwomp2 <= hero.bounding_cir_rad + thwomp2.bounding_cir_rad){
     return -1;
   }
-  else if(totalDistanceHeroSeeking <= hero.bounding_cir_rad + thingSeeking.bounding_cir_rad){
+  else if(totalDistanceHeroSeeking <= hero.bounding_cir_rad + thingSeeking.bounding_cir_rad
+    || totalDistanceHeroSeeking2 <= hero.bounding_cir_rad + thingSeeking2.bounding_cir_rad){
     return 1;
   }
   if(hero.x<0 || hero.x>ARENASIZE){
@@ -312,9 +350,9 @@ window.addEventListener("keyup", function (e) {
 
 function whatKey() {
   if (keys[83]) { // key: S or Move backward
-    hero.move(-2.0, 0);
+    hero.move(-moveSpeed);
     if(collision()<0){
-      hero.move(2.0,0);
+      hero.move(moveSpeed);
       keys[83] = false;
       location.href = "./the-end.html";
     } else if(collision()===1) {
@@ -325,9 +363,9 @@ function whatKey() {
     }
   }
   if (keys[87]) { // key: W or Move forward
-    hero.move(2.0, 0);
+    hero.move(moveSpeed);
     if(collision()<0) {
-      hero.move(-2.0,0);
+      hero.move(-moveSpeed);
       keys[87] = false;
       location.href = "./the-end.html";
     } else if(collision()===1) {
@@ -338,13 +376,13 @@ function whatKey() {
     }
   }
   if (keys[65]) { // key: A or Turn left
-    hero.turn(-1.5);
+    hero.turn(-turnSpeed);
     if(collision()===1) {
       keys[65] = false;
     }
   }
   if (keys[68]) { // key: D or Turn right
-    hero.turn(1.5);
+    hero.turn(turnSpeed);
     if(collision()===1) {
       keys[68] = false;
     }
