@@ -25,6 +25,9 @@ var moveSpeed = 2.0;
 var turnSpeed = 5.0
 var villainSpeed = 2.0;
 
+var point;
+var appendPoints;
+
 var width;      // canvas size
 var height;
 var vp1_left = 0;      // Left viewport -- the hero's view
@@ -60,8 +63,22 @@ var count = 0;
 
 var g_matrixStack = []; // Stack for storing a matrix
 
+function savesnum(val) {
+    document.cookie = 'snum:'+ point + '/;'; //Set the cookie
+}
+
+function getsnum() {
+    var start = document.cookie.indexOf('snum:'); //Get the location of the cookie value
+    var stop = document.cookie.length; //Get the end of the cookie value
+
+    return document.cookie.substring(start+5, stop); //Return the value of the cookie (+5 because 'snum:' is 5 chars long)
+}
+
 window.onload = function init(){
+  if(window.location.href.indexOf("the-game.html") > -1){
     canvas = document.getElementById( "gl-canvas" );
+    point = 0;
+    appendPoints = document.getElementById("points");
     fit();
     timer();
 
@@ -119,6 +136,11 @@ window.onload = function init(){
     thwomp2.init();
 
     render();
+  }
+  else if(window.location.href.indexOf("the-end.html") > -1){
+    point = getsnum();
+    document.getElementById("totalPoints").innerHTML = point;
+  }
 };
 
 function render()
@@ -142,7 +164,21 @@ function render()
     arena.show();
     hero.show();
     renderCount++;
-    if(parseInt(document.getElementById("minutes").innerHTML) > 0 || parseInt(document.getElementById("seconds").innerHTML) > 2){
+    if(collision()==1){
+      thingSeeking.x = ARENASIZE + 2;
+      thingSeeking.z = ARENASIZE + 2;
+      point += 10;
+      appendPoints.innerHTML = point;
+      villainSpeed -= 0.5;
+    }
+    else if(collision()==2){
+      thingSeeking2.x = ARENASIZE + 2;
+      thingSeeking2.z = ARENASIZE + 2;
+      point += 10;
+      appendPoints.innerHTML = point;
+      villainSpeed -= 0.5;
+    }
+    else if(parseInt(document.getElementById("minutes").innerHTML) > 0 || parseInt(document.getElementById("seconds").innerHTML) > 2){
       thingSeeking.show();
       thingSeeking2.show();
     }
@@ -225,6 +261,7 @@ function render()
       count++;
     }
     if (collision()==-1) {
+      savesnum(point);
       location.href = "./the-end.html";
     }
     else{
@@ -245,6 +282,9 @@ function timer(){
     seconds++;
     villainSpeed += .05;
     moveSpeed += .05;
+    point += 2
+
+    appendPoints.innerHTML = point;
 
     if (seconds < 10) {
       appendSeconds.innerHTML = "0" + seconds;
@@ -317,9 +357,11 @@ function collision(){
     || totalDistanceHeroThwomp2 <= hero.bounding_cir_rad + thwomp2.bounding_cir_rad){
     return -1;
   }
-  else if(totalDistanceHeroSeeking <= hero.bounding_cir_rad + thingSeeking.bounding_cir_rad
-    || totalDistanceHeroSeeking2 <= hero.bounding_cir_rad + thingSeeking2.bounding_cir_rad){
+  else if(totalDistanceHeroSeeking <= hero.bounding_cir_rad + thingSeeking.bounding_cir_rad){
     return 1;
+  }
+  else if(totalDistanceHeroSeeking2 <= hero.bounding_cir_rad + thingSeeking2.bounding_cir_rad){
+    return 2;
   }
   if(hero.x<0 || hero.x>ARENASIZE){
     return "wall";
@@ -352,42 +394,46 @@ window.addEventListener("keyup", function (e) {
 });
 
 function whatKey() {
-  if (keys[83]) { // key: S or Move backward
+  if (keys[83] || keys[40]) { // key: S or Move backward
     hero.move(-moveSpeed);
     if(collision()<0){
       hero.move(moveSpeed);
       keys[83] = false;
+      keys[40] = false;
+      savesnum(point);
       location.href = "./the-end.html";
     } else if(collision()===1) {
-      keys[83] = false;
-      location.href = "./the-win.html";
+      // location.href = "./the-win.html";
     } else if(collision()==="wall") {
       hero.move(2.0,0);
     }
   }
-  if (keys[87]) { // key: W or Move forward
+  if (keys[87] || keys[38]) { // key: W or Move forward
     hero.move(moveSpeed);
     if(collision()<0) {
       hero.move(-moveSpeed);
       keys[87] = false;
+      keys[38] = false;
+      savesnum(point);
       location.href = "./the-end.html";
     } else if(collision()===1) {
-      keys[87] = false;
-      location.href = "./the-win.html";
+      // location.href = "./the-win.html";
     } else if(collision()==="wall") {
       hero.turn(180);
     }
   }
-  if (keys[65]) { // key: A or Turn left
+  if (keys[65] || keys[37]) { // key: A or Turn left
     hero.turn(-turnSpeed);
     if(collision()===1) {
       keys[65] = false;
+      keys[37] = false;
     }
   }
-  if (keys[68]) { // key: D or Turn right
+  if (keys[68] || keys[39]) { // key: D or Turn right
     hero.turn(turnSpeed);
     if(collision()===1) {
       keys[68] = false;
+      keys[39] = false;
     }
   }
 }
