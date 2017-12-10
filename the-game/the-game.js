@@ -21,9 +21,9 @@ var newSeekingPosZ;
 var newSeekingPosX2;
 var newSeekingPosZ2;
 
-var moveSpeed = 1.0;
+var moveSpeed = 2.0;
 var turnSpeed = 5.0
-var villainSpeed = 1.0;
+var villainSpeed = 2.0;
 
 var width;      // canvas size
 var height;
@@ -174,6 +174,11 @@ function render()
     thwomp.show();
     thwomp2.show();
 
+    if(collision()==-2){
+        villain.x = Math.random() * ARENASIZE;
+        villain.z = -(Math.random() * ARENASIZE);
+    }
+
     // Overhead viewport
     var horiz_offset = width * (1.0 - HERO_VP) / 20.0;
     gl.viewport(vp1_left + .75 * width, vp1_bottom + .75 * height, width * .248, height * .248);
@@ -205,12 +210,10 @@ function render()
     villain.updateSpeed(villainSpeed);
     villain.move(villain.speedX + villain.speedZ);
 
-    // if(collision()==-2){
-    //   if(renderCount % 10 == 0){
-    //     villain.x = newSeekingPosX;
-    //     villain.z = newSeekingPosZ;
-    //   }
-    // }
+    if(collision()==-2){
+        villain.x = Math.random() * ARENASIZE;
+        villain.z = -(Math.random() * ARENASIZE);
+    }
 
     if (count === 30) {
       thwomp.turn(90);
