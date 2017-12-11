@@ -23,7 +23,7 @@ var newSeekingPosZ2;
 
 var moveSpeed = 1.0;
 var turnSpeed = 1.5;
-var villainSpeed = 1.0;
+var villainSpeed = 0.7;
 
 var point;
 var appendPoints;
@@ -162,14 +162,14 @@ function render(){
     arena.show();
     hero.show();
     renderCount++;
-    if(collision()==1){
+    if(collision()===1){
       thingSeeking.x = ARENASIZE + 2;
       thingSeeking.z = ARENASIZE + 2;
       point += 10;
       appendPoints.innerHTML = point;
       villainSpeed -= 0.05;
     }
-    else if(collision()==2){
+    else if(collision()===2){
       thingSeeking2.x = ARENASIZE + 2;
       thingSeeking2.z = ARENASIZE + 2;
       point += 10;
@@ -180,8 +180,8 @@ function render(){
       thingSeeking.show();
       thingSeeking2.show();
     }
-    if(parseInt(document.getElementById("seconds").innerHTML) % 10 == 0){
-      if(renderCount % 60 == 0){
+    if(parseInt(document.getElementById("seconds").innerHTML) % 10 === 0){
+      if(renderCount % 60 === 0){
         newSeekingPosX = Math.random() * ARENASIZE;
         newSeekingPosZ = Math.random() * -ARENASIZE;
         newSeekingPosX2 = Math.random() * ARENASIZE;
@@ -208,7 +208,7 @@ function render(){
     thwomp.show();
     thwomp2.show();
 
-    if(collision()==-2){
+    if(collision()===-2){
         villain.x = Math.random() * ARENASIZE;
         villain.z = -(Math.random() * ARENASIZE);
     }
@@ -227,8 +227,8 @@ function render(){
       thingSeeking.show();
       thingSeeking2.show();
     }
-    if(parseInt(document.getElementById("seconds").innerHTML) % 10 == 0){
-      if(renderCount % 60 == 0){
+    if(parseInt(document.getElementById("seconds").innerHTML) % 10 === 0){
+      if(renderCount % 60 === 0){
         thingSeeking.x = newSeekingPosX;
         thingSeeking.z = newSeekingPosZ;
         thingSeeking2.x = newSeekingPosX2;
@@ -244,12 +244,12 @@ function render(){
     villain.updateSpeed(villainSpeed);
     villain.move(villain.speedX + villain.speedZ);
 
-    if(collision()==-2){
+    if(collision()===-2){
         villain.x = Math.random() * ARENASIZE;
         villain.z = -(Math.random() * ARENASIZE);
     }
 
-    if (count == 160) {
+    if (count === 160) {
       thwomp.turn(-90);
       thwomp2.turn(-90);
       count = 0;
@@ -258,7 +258,7 @@ function render(){
         thwomp2.move(5);
       count++;
     }
-    if (collision()==-1) {
+    if (collision()===-1) {
       savesnum(point);
       location.href = "./the-end.html";
     }
@@ -284,7 +284,7 @@ function timer(){
     if(moveSpeed <= 5){
       moveSpeed += .01;
     }
-    point += 2
+    point += 2;
     appendPoints.innerHTML = point;
 
     if (seconds < 10) {
