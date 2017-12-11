@@ -1,6 +1,4 @@
 // the-game.js
-// https://stackoverflow.com/questions/27533331/problems-making-enemy-follow-moving-player
-// possible solution to making the villain chase the hero?
 var gl;
 var canvas;
 const WALLHEIGHT = 70.0; // Some playing field parameters
@@ -83,7 +81,7 @@ window.onload = function init(){
     timer();
 
     gl = WebGLUtils.setupWebGL( canvas );
-    // gl = WebGLDebugUtils.makeDebugContext( canvas.getContext("webgl") ); // For debugging
+
     if ( !gl ) {
         alert( "WebGL isn't available" );
     }
@@ -404,7 +402,7 @@ function whatKey() {
       savesnum(point);
       location.href = "./the-end.html";
     } else if(collision()===1) {
-      // location.href = "./the-win.html";
+      // Increase points
     } else if(collision()==="wall") {
       hero.move(2.0,0);
     }
@@ -418,7 +416,7 @@ function whatKey() {
       savesnum(point);
       location.href = "./the-end.html";
     } else if(collision()===1) {
-      // location.href = "./the-win.html";
+      // Increase points
     } else if(collision()==="wall") {
       hero.turn(180);
     }

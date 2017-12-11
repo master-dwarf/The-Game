@@ -79,7 +79,7 @@ Thwomp.prototype.init = function() {
     // WebGL guarantees at least eight texture units -- see
     // http://webglstats.com/webgl/parameter/MAX_TEXTURE_IMAGE_UNITS
     
-    // Texture 0
+    // Texture 2
     var image2 = new Image();
     image2.crossOrigin = "anonymous";
     image2.src = "Thwomp.png";   
