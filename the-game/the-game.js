@@ -69,7 +69,8 @@ function savesnum(val) {
 
 function getsnum() {
     var start = document.cookie.indexOf('snum:');
-    var stop = document.cookie.length;
+    var cook = document.cookie.split(";");
+    var stop = cook[0].length;
     return document.cookie.substring(start+5, stop);
 }
 
