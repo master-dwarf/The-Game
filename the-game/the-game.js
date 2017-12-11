@@ -90,7 +90,7 @@ window.onload = function init(){
 
     //  Configure WebGL
 
-    gl.clearColor( 0.2, 0.8, 1.0, 1.0 );
+    gl.clearColor(0.0, 0.0, 0.0, 0.0);
 
     gl.enable(gl.DEPTH_TEST);
     gl.enable(gl.POLYGON_OFFSET_FILL);
