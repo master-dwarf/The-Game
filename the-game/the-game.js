@@ -23,7 +23,7 @@ var newSeekingPosZ2;
 
 var moveSpeed = 1.0;
 var turnSpeed = 1.5;
-var villainSpeed = 0.5;
+var villainSpeed = 1.0;
 
 var point;
 var appendPoints;
@@ -249,7 +249,7 @@ function render(){
         villain.z = -(Math.random() * ARENASIZE);
     }
 
-    if (count === 160) {
+    if (count == 160) {
       thwomp.turn(-90);
       thwomp2.turn(-90);
       count = 0;
@@ -279,7 +279,7 @@ function timer(){
   function startTimer () {
     seconds++;
     if(villainSpeed <= 5){
-      villainSpeed += .001;
+      villainSpeed += .005;
     }
     if(moveSpeed <= 5){
       moveSpeed += .01;
