@@ -190,7 +190,7 @@ Villain.prototype.updateAngle = function (hero) {
 };
 
 Villain.prototype.updateSpeed = function(speed) {
-    this.speedX = speed * Math.abs(this.dx/this.ditance);
+    this.speedX = speed * Math.abs(this.dx/this.distance);
     this.speedZ = speed * Math.abs(this.dz/this.distance);
 };
 
