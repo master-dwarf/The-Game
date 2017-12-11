@@ -58,7 +58,7 @@ function Villain(program, x, y, z, degrees, bounding_cir_rad)  {
         1, 1, 0, 1, 0, 0, 1, 0,
         0, 0, 1, 0, 1, 1, 0, 1
     ];
-};
+}
 
 Villain.prototype = Object.create(GameObject.prototype);
 
@@ -127,7 +127,7 @@ Villain.prototype.show = function() {
     this.vPosition = gl.getAttribLocation( program, "vPosition" );
 
     if (this.vPosition < 0) {
-	    console.log('Failed to get the storage location of vPosition');
+        console.log('Failed to get the storage location of vPosition');
     }
 
     gl.vertexAttribPointer(this.vPosition, 3, gl.FLOAT, false, 0, 0);
@@ -137,7 +137,7 @@ Villain.prototype.show = function() {
     this.vNormal = gl.getAttribLocation( program, "vNormal" );
 
     if (this.vPosition < 0) {
-	    console.log('Failed to get the storage location of vPosition');
+        console.log('Failed to get the storage location of vPosition');
     }
 
     gl.vertexAttribPointer( this.vNormal, 3, gl.FLOAT, false, 0, 0 );
@@ -147,7 +147,7 @@ Villain.prototype.show = function() {
     this.vTexCoord = gl.getAttribLocation( program, "vTexCoord");
 
     if (this.vTexCoord < 0) {
-	    console.log('Failed to get the storage location of vTexCoord');
+        console.log('Failed to get the storage location of vTexCoord');
     }
 
     gl.vertexAttribPointer(this.vTexCoord, 2, gl.FLOAT, false, 0, 0);
@@ -185,13 +185,13 @@ Villain.prototype.show = function() {
 Villain.prototype.updateAngle = function (hero) {
     this.dx = hero.x - this.x;
     this.dz = hero.z - this.z;
-    this.distance = Math.sqrt((this.dx*this.dx) + (this.dz*this.dz));
+    this.distance = Math.sqrt(this.dx*this.dx + this.dz*this.dz);
     this.degrees = Math.atan2(this.dz,this.dx) * (180 / Math.PI);
-}
+};
 
 Villain.prototype.updateSpeed = function(speed) {
-    this.speedX = speed * Math.abs(this.dx/this.distance);
+    this.speedX = speed * Math.abs(this.dx/this.ditance);
     this.speedZ = speed * Math.abs(this.dz/this.distance);
-}
+};
 
 //////////////////////////  End Villain's code /////////////////////////////////

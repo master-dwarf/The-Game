@@ -117,6 +117,6 @@ function Arena () {
 		gl.disableVertexAttribArray(this.vNormal);
 		};
 
-};
+}
 
 //////////////////////////  End Arena object /////////////////////////////////
