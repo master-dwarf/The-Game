@@ -29,14 +29,14 @@ sphere {
 }
 
 plane { <0, 1, 0>, -1
-    pigment {
-      checker color Red, color Blue
-    }
+  pigment {
+    checker color Red, color Blue
   }
+}
   
 box {
-    <-1, 0,   -1>,  // Near lower left corner
-    < 1, 0.5,  3>   // Far upper right corner
+  <-1, 0,   -1>,  // Near lower left corner
+  < 1, 0.5,  3>   // Far upper right corner
 	pigment{
 		color green
 	}
