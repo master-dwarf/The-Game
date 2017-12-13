@@ -1,4 +1,5 @@
 #include "colors.inc"  // Include color name macros
+#include "particle.inc"
 
 // $ povray +POVrayAssignment.pov
 
@@ -39,4 +40,4 @@ box {
 	pigment{
 		color green
 	}
-  }
+}
