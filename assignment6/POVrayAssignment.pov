@@ -1,4 +1,4 @@
-#include "colors.inc"  // Include color name macros
+#include "colors.inc" 
 #include "particle.inc"
 #include "Pawn.inc"
 #include "King.inc"
@@ -6,8 +6,13 @@
 #include "Knight.inc"
 #include "Rook.inc"
 #include "Bishop.inc"
-
-// $ povray +POVrayAssignment.pov
+#declare kingPos = -1.6;
+#declare move = 0.5;
+#if (clock < 1) 
+    #declare kingPos = -1.6;
+#else
+    #declare kingPos = kingPos + move;
+#end
 
 background { color Cyan }  
 
@@ -30,12 +35,6 @@ camera {
 
 // Object!
 
-//sphere {
-//    <0, 1, 3>, 2         // X, Y, Z and radius of the sphere
- //   texture {
-   //     pigment { color Yellow }
-   // }
-//}
 #declare MirrorRed = texture { 
     pigment { color Red } 
     finish { ambient 1 diffuse 0.8 specular 0.9 reflection 0.7 }
@@ -57,17 +56,9 @@ object { kingshape
         pigment { color White }
     }
     scale <0.5, 0.5, 0.5>
-    translate <-1, 0, 0>
+    translate <kingPos, 0, 0>
 }
   
-//box {
-//    <-1, 0,   -1>,  // Near lower left corner
-//   < 1, 0.5,  3>   // Far upper right corner
-//	pigment{
-//		color Green
-//	}
-//} 
-
 // Clock settings
 // **************
 
