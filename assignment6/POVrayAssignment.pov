@@ -1,5 +1,11 @@
 #include "colors.inc"  // Include color name macros
 #include "particle.inc"
+#include "Pawn.inc"
+#include "King.inc"
+#include "Queen.inc"
+#include "Knight.inc"
+#include "Rook.inc"
+#include "Bishop.inc"
 
 // $ povray +POVrayAssignment.pov
 
@@ -24,19 +30,19 @@ camera {
 
 // Object!
 
-sphere {
-    <0, 1, 3>, 2         // X, Y, Z and radius of the sphere
-    texture {
-        pigment { color Yellow }
-    }
-}
+//sphere {
+//    <0, 1, 3>, 2         // X, Y, Z and radius of the sphere
+ //   texture {
+   //     pigment { color Yellow }
+   // }
+//}
 #declare MirrorRed = texture { 
     pigment { color Red } 
-    finish { ambient 1 diffuse 0.8 specular 0.9 reflection 0 }
+    finish { ambient 1 diffuse 0.8 specular 0.9 reflection 0.7 }
 }
 #declare MirrorBlue = texture { 
     pigment { color Blue } 
-    finish { reflection 1 ambient o.1 diffuse 0 }
+    finish { reflection 1 ambient 0.1 diffuse 0 }
 }
 #declare Floor = 
     plane { <0, 1, 0>, -1        
@@ -45,6 +51,14 @@ sphere {
         }
     }       
 object{Floor}
+
+object { kingshape 
+    texture {
+        pigment { color White }
+    }
+    scale <0.5, 0.5, 0.5>
+    translate <-1, 0, 0>
+}
   
 //box {
 //    <-1, 0,   -1>,  // Near lower left corner
