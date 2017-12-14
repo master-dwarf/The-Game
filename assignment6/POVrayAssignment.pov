@@ -6,12 +6,14 @@
 #include "Knight.inc"
 #include "Rook.inc"
 #include "Bishop.inc"
-#declare kingPos = -1.6;
-#declare move = 0.5;
-#if (clock < 1) 
-    #declare kingPos = -1.6;
-#else
-    #declare kingPos = kingPos + move;
+#declare whiteKingPos = -2.5;
+#declare blackKingPos = 2.5;
+#declare move = 0.5 * clock;
+#if ( whiteKingPos + move <= 2.5 )
+    #declare whiteKingPos = whiteKingPos + move;
+#end
+#if ( blackKingPos - move >= -2.5 )
+    #declare blackKingPos = blackKingPos - move;
 #end
 
 background { color Cyan }  
@@ -35,29 +37,53 @@ camera {
 
 // Object!
 
-#declare MirrorRed = texture { 
-    pigment { color Red } 
-    finish { ambient 1 diffuse 0.8 specular 0.9 reflection 0.7 }
+#declare Mirror = texture { 
+    pigment { color White } 
+    finish { reflection 1 ambient 0.1 diffuse 0.0 }
 }
-#declare MirrorBlue = texture { 
-    pigment { color Blue } 
-    finish { reflection 1 ambient 0.1 diffuse 0 }
+#declare Shiny_Red = texture { 
+    pigment { color Red } 
+    finish { reflection 0.5 ambient 0.2 diffuse 0.8 specular 1 }
+}
+#declare Shiny_Cyan = texture { 
+    pigment { color Cyan } 
+    finish { reflection 0.5 ambient 0.2 diffuse 0.8 specular 1  }
+}
+#declare Shiny_Black = texture { 
+    pigment { color Black } 
+    finish { ambient 0 diffuse 0.8 specular 1  }
+}
+#declare Shiny_White = texture { 
+    pigment { color White } 
+    finish { ambient 0 diffuse 0.8 specular 1  }
 }
 #declare Floor = 
-    plane { <0, 1, 0>, -1        
+    plane { <0, 1, 0>, 0        
         texture { 
-            checker texture { MirrorRed }, texture { MirrorBlue } 
+            checker texture { Shiny_Red }, texture { Shiny_Cyan } 
         }
     }       
 object{Floor}
 
 object { kingshape 
-    texture {
-        pigment { color White }
-    }
-    scale <0.5, 0.5, 0.5>
-    translate <kingPos, 0, 0>
+    texture { Shiny_White }
+    scale <1, 1, 1>
+    translate <whiteKingPos, 0, .5>
 }
+
+object { kingshape 
+    texture { Shiny_Black }
+    scale < 1, 1, 1>
+    translate <blackKingPos, 0, 1.5>
+}
+
+object { pawnshape 
+    texture {
+        pigment { color Black }
+    }
+    translate <0, 0, 3>
+}
+
   
 // Clock settings
 // **************
