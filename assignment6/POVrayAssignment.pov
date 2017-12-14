@@ -25,16 +25,23 @@ camera {
 // Object!
 
 sphere {
-    <0, 3, 3>, 2         // X, Y, Z and radius of the sphere
+    <0, 1, 3>, 2         // X, Y, Z and radius of the sphere
     texture {
         pigment { color Yellow }
     }
 }
-
+#declare MirrorRed = texture { 
+    pigment { color Red } 
+    finish { ambient 1 diffuse 0.8 specular 0.9 reflection 0 }
+}
+#declare MirrorBlue = texture { 
+    pigment { color Blue } 
+    finish { reflection 1 ambient o.1 diffuse 0 }
+}
 #declare Floor = 
-    plane { <0, 1, 0>, -1
-        pigment {
-            checker color Red, color Blue
+    plane { <0, 1, 0>, -1        
+        texture { 
+            checker texture { MirrorRed }, texture { MirrorBlue } 
         }
     }       
 object{Floor}
