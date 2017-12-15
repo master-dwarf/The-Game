@@ -6,6 +6,11 @@
 #include "Knight.inc"
 #include "Rook.inc"
 #include "Bishop.inc"
+#include "Banana.inc"
+#declare bananaPosY = 5;
+#declare bananaPosZ = 9;    
+#declare bananaSize = 0.6;     
+#declare bananaMove = 0.5 * clock;
 #declare whiteKingPos = -2.5;
 #declare blackKingPos = 2.5;
 #declare move = 0.5 * clock;
@@ -14,6 +19,15 @@
 #end
 #if ( blackKingPos - move >= -2.5 )
     #declare blackKingPos = blackKingPos - move;
+#end  
+#if ( bananaPosY - bananaMove >= 2.0 )
+    #declare bananaPosY = bananaPosY - bananaMove;
+    #declare bananaPosZ = bananaPosZ - bananaMove; 
+    #declare bananaSize = bananaSize + 0.2;
+#else
+    #declare bananaPosY = bananaPosY + bananaMove;
+    #declare bananaPosZ = bananaPosZ + bananaMove;
+    #declare bananaSize = bananaSize + 0.2;   
 #end
 
 background { color Cyan }  
@@ -82,6 +96,14 @@ object { pawnshape
         pigment { color Black }
     }
     translate <0, 0, 3>
+} 
+
+object { banana_0 
+    texture {
+        pigment { color Yellow }
+    }
+    scale <bananaSize, bananaSize, bananaSize>
+    translate <0, bananaPosY, bananaPosZ>
 }
 
   
