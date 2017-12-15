@@ -6,14 +6,27 @@
 #include "Knight.inc"
 #include "Rook.inc"
 #include "Bishop.inc"
+#include "Banana.inc"                         
+#declare bananaPosZ = 8.0;
+#declare bananaPosY = (0.5 * ((bananaPosZ) * (bananaPosZ)))-1;    
+#declare bananaSize = 0.6;        
+#declare bananaMoveZ = 0.5 * clock;
 #declare whiteKingPos = -2.5;
 #declare blackKingPos = 2.5;
-#declare move = 0.5 * clock;
+#declare move = 0.2 * clock;
 #if ( whiteKingPos + move <= 2.5 )
     #declare whiteKingPos = whiteKingPos + move;
+#else
+    #declare whiteKingPos = whiteKingPos;
 #end
 #if ( blackKingPos - move >= -2.5 )
     #declare blackKingPos = blackKingPos - move;
+#else
+    #declare blackKinPos = blackKingPos;
+#end  
+#if ( bananaPosZ >= -30.0 )                                                  
+    #declare bananaPosZ = bananaPosZ - bananaMoveZ;
+    #declare bananaPosY = (0.5 * ((bananaPosZ) * (bananaPosZ)))-1;   
 #end
 
 background { color Cyan }  
@@ -66,7 +79,7 @@ camera {
 object{Floor}
 
 object { kingshape 
-    texture { Shiny_White }
+   texture { Shiny_White }
     scale <1, 1, 1>
     translate <whiteKingPos, 0, .5>
 }
@@ -82,6 +95,15 @@ object { pawnshape
         pigment { color Black }
     }
     translate <0, 0, 3>
+} 
+
+object { banana_0 
+    texture {
+        pigment { color Yellow }
+    }                
+    scale 10 
+    rotate <0, 0, 45>
+    translate <bananaPosZ, bananaPosY, 1>
 }
 
   
