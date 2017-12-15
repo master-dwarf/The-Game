@@ -8,12 +8,12 @@
 #include "Bishop.inc"
 #include "Banana.inc"                         
 #declare bananaPosZ = 8.0;
-#declare bananaPosY = (0.5 * ((bananaPosZ) * (bananaPosZ)))-1;    
+#declare bananaPosY = (0.55 * ((bananaPosZ) * (bananaPosZ)))-1;    
 #declare bananaSize = 0.6;        
 #declare bananaMoveZ = 0.5 * clock;
 #declare whiteKingPos = -2.5;
 #declare blackKingPos = 2.5;
-#declare move = 0.2 * clock;
+#declare move = 0.25 * clock;
 #if ( whiteKingPos + move <= 2.5 )
     #declare whiteKingPos = whiteKingPos + move;
 #else
