@@ -6,28 +6,27 @@
 #include "Knight.inc"
 #include "Rook.inc"
 #include "Bishop.inc"
-#include "Banana.inc"
-#declare bananaPosY = 5;
-#declare bananaPosZ = 9;    
-#declare bananaSize = 0.6;     
-#declare bananaMove = 0.5 * clock;
+#include "Banana.inc"                         
+#declare bananaPosZ = 8.0;
+#declare bananaPosY = (0.5 * ((bananaPosZ) * (bananaPosZ)))-1;    
+#declare bananaSize = 0.6;        
+#declare bananaMoveZ = 0.5 * clock;
 #declare whiteKingPos = -2.5;
 #declare blackKingPos = 2.5;
 #declare move = 0.5 * clock;
 #if ( whiteKingPos + move <= 2.5 )
     #declare whiteKingPos = whiteKingPos + move;
+#else
+    #declare whiteKingPos = whiteKingPos;
 #end
 #if ( blackKingPos - move >= -2.5 )
     #declare blackKingPos = blackKingPos - move;
-#end  
-#if ( bananaPosY - bananaMove >= 2.0 )
-    #declare bananaPosY = bananaPosY - bananaMove;
-    #declare bananaPosZ = bananaPosZ - bananaMove; 
-    #declare bananaSize = bananaSize + 0.2;
 #else
-    #declare bananaPosY = bananaPosY + bananaMove;
-    #declare bananaPosZ = bananaPosZ + bananaMove;
-    #declare bananaSize = bananaSize + 0.2;   
+    #declare blackKinPos = blackKingPos;
+#end  
+#if ( bananaPosZ >= -30.0 )                                                  
+    #declare bananaPosZ = bananaPosZ - bananaMoveZ;
+    #declare bananaPosY = (0.5 * ((bananaPosZ) * (bananaPosZ)))-1;   
 #end
 
 background { color Cyan }  
@@ -80,7 +79,7 @@ camera {
 object{Floor}
 
 object { kingshape 
-    texture { Shiny_White }
+   texture { Shiny_White }
     scale <1, 1, 1>
     translate <whiteKingPos, 0, .5>
 }
@@ -101,9 +100,10 @@ object { pawnshape
 object { banana_0 
     texture {
         pigment { color Yellow }
-    }
-    scale <bananaSize, bananaSize, bananaSize>
-    translate <0, bananaPosY, bananaPosZ>
+    }                
+    scale 10 
+    rotate <0, 0, 45>
+    translate <bananaPosZ, bananaPosY, 1>
 }
 
   
