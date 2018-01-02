@@ -13,7 +13,9 @@
 #declare bananaMoveX = 0.5 * clock;
 #declare whiteKingPos = -2.5;
 #declare blackKingPos = 2.5;
-#declare move = 0.25 * clock;
+#declare move = 0.25 * clock;  
+#declare pawnColor = 0;
+#declare visible = 0;
 #if ( whiteKingPos + move <= 2.5 )
     #declare whiteKingPos = whiteKingPos + move;
 #else
@@ -27,7 +29,12 @@
 #if ( bananaPosX >= -30.0 )                                                  
     #declare bananaPosX = bananaPosX - bananaMoveX;
     #declare bananaPosY = (0.5 * ((bananaPosX) * (bananaPosX)))-1;   
+#end        
+#if ( clock > 13.0 )    
+    #declare pawnColor = 1;
+    #declare visible = 1;  
 #end
+    
 
 background { color Cyan }  
 
@@ -92,7 +99,7 @@ object { kingshape
 
 object { pawnshape 
     texture {
-        pigment { Black }
+        pigment { color rgb<pawnColor, pawnColor, pawnColor, visible> }
     }
     translate <0, 0, 3>
 } 
@@ -110,7 +117,7 @@ object { banana_0
 // Clock settings
 // **************
 
-#declare particle_start  = 0.0; 
+#declare particle_start  = 13.0; 
 #declare particle_end    = 19.0;
 #declare particle_steps  = 20;
 
@@ -131,7 +138,7 @@ object { banana_0
 // Emitter settings              
 // ****************     
          
-#macro particle_emitter  (Clock) <Clock, Clock, Clock> #end
+#macro particle_emitter  (Clock) <0, 1.5, 3> #end
 #macro particle_emitting (Clock) on      #end 
 
 // Collision settings

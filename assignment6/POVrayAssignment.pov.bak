@@ -7,10 +7,10 @@
 #include "Rook.inc"
 #include "Bishop.inc"
 #include "Banana.inc"                         
-#declare bananaPosZ = 8.0;
-#declare bananaPosY = (0.55 * ((bananaPosZ) * (bananaPosZ)))-1;    
+#declare bananaPosX = 8.0;
+#declare bananaPosY = (0.55 * ((bananaPosX) * (bananaPosX)))-1;    
 #declare bananaSize = 0.6;        
-#declare bananaMoveZ = 0.5 * clock;
+#declare bananaMoveX = 0.5 * clock;
 #declare whiteKingPos = -2.5;
 #declare blackKingPos = 2.5;
 #declare move = 0.25 * clock;
@@ -22,11 +22,11 @@
 #if ( blackKingPos - move >= -2.5 )
     #declare blackKingPos = blackKingPos - move;
 #else
-    #declare blackKinPos = blackKingPos;
+    #declare blackKingPos = blackKingPos;
 #end  
-#if ( bananaPosZ >= -30.0 )                                                  
-    #declare bananaPosZ = bananaPosZ - bananaMoveZ;
-    #declare bananaPosY = (0.5 * ((bananaPosZ) * (bananaPosZ)))-1;   
+#if ( bananaPosX >= -30.0 )                                                  
+    #declare bananaPosX = bananaPosX - bananaMoveX;
+    #declare bananaPosY = (0.5 * ((bananaPosX) * (bananaPosX)))-1;   
 #end
 
 background { color Cyan }  
@@ -92,7 +92,7 @@ object { kingshape
 
 object { pawnshape 
     texture {
-        pigment { color Black }
+        pigment { Black }
     }
     translate <0, 0, 3>
 } 
@@ -103,15 +103,15 @@ object { banana_0
     }                
     scale 10 
     rotate <0, 0, 45>
-    translate <bananaPosZ, bananaPosY, 1>
+    translate <bananaPosX, bananaPosY, 1>
 }
 
   
 // Clock settings
 // **************
 
-#declare particle_start  = 0.0;
-#declare particle_end    = 1.0;
+#declare particle_start  = 0.0; 
+#declare particle_end    = 19.0;
 #declare particle_steps  = 20;
 
 // General particle settings
@@ -128,11 +128,11 @@ object { banana_0
 #macro particle_gravity  (Clock,Point) <0,-1,0> #end
 #macro particle_wind     (Clock,Point) <0,0,0> #end
 
-// Emitter settings
-// ****************
-
+// Emitter settings              
+// ****************     
+         
 #macro particle_emitter  (Clock) <Clock, Clock, Clock> #end
-#macro particle_emitting (Clock) on      #end
+#macro particle_emitting (Clock) on      #end 
 
 // Collision settings
 // ******************
@@ -151,7 +151,7 @@ object { banana_0
 //    p_age,       p_birth,     p_state,     p_rotate
 
 sphere { < 0, 0, 0 >  0.04
-  pigment { Red }
+  pigment { Black }
   finish {diffuse 1 specular 0.5}
   translate p_location
 }
